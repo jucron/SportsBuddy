@@ -1,10 +1,76 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Login page</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <style>
+        img {
+            position: relative;
+            left: 100px;
+            /*top: 150px;*/
+            width: 20rem
+        }
+    </style>
+
 </head>
 <body>
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 
+<div class="container my-5">
+
+    <div class="row">
+        <p></p>
+        <div class="col-md-4">
+            <img class="img-responsive" src="../static/images/Logo.PNG" th:src="@{/images/Logo.PNG}"/>
+        </div>
+        <div class="col-md-5">
+            <p></p>
+            <h1>Welcome to Sports Buddy</h1>
+            <p2>Please login or register</p2>
+            <p> </p>
+            <form action="#" th:action="@{/login}" th:object="${login}" method="post">
+                <div class="form-floating mb-3">
+                    <label for="floatingInput">Username</label>
+                    <input autocomplete="off" type="username" th:field="*{username}" class="form-control" id="floatingInput" placeholder="username">
+                    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"></span>
+                </div>
+                <div class="form-floating">
+                    <label for="floatingPassword">Password</label>
+                    <input autocomplete="off" type="password" th:field="*{password}" class="form-control" id="floatingPassword" placeholder="Password">
+                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></span>
+                </div>
+                <p> </p>
+                <div>
+                    <input type="submit" class="btn btn-primary" value="Login">
+<!--                    <a type="submit" href="register" class="btn btn-primary" >Login</a>-->
+                    <a href="register_page" class="btn btn-primary">Register</a>
+                </div>
+            </form>
+            <p></p>
+            <div th:if="${account.feedback} == true">
+
+            <div th:if="${account.getPosition()} == 1">
+                <div class="alert alert-danger" role="alert" >
+                    <p5 th:text="${account.getMessage()}">Error logging in, username or password incorrect.</p5>
+                </div>
+            </div>
+            <div th:if="${account.getPosition()} == 2">
+                <div class="alert alert-primary" role="alert" >
+                    <p5 th:text="${account.getMessage()}">Account successful created!</p5>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+
+        </div>
+    </div>
+
+</div>
 </body>
 </html>
