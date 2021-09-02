@@ -36,13 +36,12 @@
             <form action="#" th:action="@{/login}" th:object="${login}" method="post">
                 <div class="form-floating mb-3">
                     <label for="floatingInput">Username</label>
-                    <input autocomplete="off" type="username" th:field="*{username}" class="form-control" id="floatingInput" placeholder="username">
-                    <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="text-danger"></span>
+                    <input autocomplete="off" type="text" th:field="*{username}" class="form-control" id="floatingInput" placeholder="username">
+<!--                    <input type="text" autocomplete="off" th:field="*{username}" class="form-control" id="username">-->
                 </div>
                 <div class="form-floating">
                     <label for="floatingPassword">Password</label>
                     <input autocomplete="off" type="password" th:field="*{password}" class="form-control" id="floatingPassword" placeholder="Password">
-                    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="text-danger"></span>
                 </div>
                 <p> </p>
                 <div>

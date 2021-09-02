@@ -22,7 +22,7 @@ public class IndexController {
 
     UserRepository userRepository;
     HashService hashService = new HashService();
-    Long mainUserId; //temporary session layer
+    Long mainUserId = null; //temporary session layer
 
 
     @Autowired
@@ -35,8 +35,17 @@ public class IndexController {
     public String startupPage (Model model) {
         model.addAttribute("login", new Login());
         model.addAttribute("account", new FeedbackService(false));
+        if (mainUserId!=null){
+            return "matches/matches";
+        }
         return "index";
     }
+    @GetMapping({"logout"})
+    public String logout () {
+        mainUserId = null;
+        return "redirect:index";
+    }
+
     //Bad Login index
     @GetMapping({"index_badlogin"})
     public String startupPageBadLogin (Model model) {
@@ -96,11 +105,10 @@ public class IndexController {
     }
 
     //Login validation
-    @PostMapping("login") //todo: must understand why login object is null!!
-    public String login (@Valid Login login,
-                         @org.jetbrains.annotations.NotNull BindingResult result) throws NoSuchAlgorithmException {
-        if (result.hasErrors() || Objects.equals(login.getUsername(), "") || Objects.equals(login.getPassword(), "")) { //Validating form entry requirements (not blank)
-            return "redirect:index_badpass";
+    @PostMapping("login")
+    public String login (Login login) throws NoSuchAlgorithmException {
+        if (Objects.equals(login.getUsername(), "") || Objects.equals(login.getPassword(), "")) { //Validating form entry requirements (not blank)
+            return "redirect:index_badlogin";
         }
         if (login.getUsername()==null) {
             System.out.println("username null");
@@ -108,7 +116,7 @@ public class IndexController {
         }
         String usernameInput = login.getUsername();
         String passInput = hashService.hashPass(login.getPassword());
-
+        System.out.println("Password from login: "+ passInput);
         //Step 1: validate login
         Iterator<User> users = userRepository.findAll().iterator();
         while (users.hasNext()) {
@@ -119,7 +127,7 @@ public class IndexController {
             } else if (!users.hasNext()) { //username not found
                 System.out.println("username not found");
 
-                return "redirec:index_badlogin";
+                return "redirect:index_badlogin";
             }
         }
         //Step 2: validate password
@@ -131,7 +139,6 @@ public class IndexController {
                 break;
             } else if (!users.hasNext()) { //password not found
                 System.out.println("pass NOT found");
-
                 return "redirect:index_badlogin";
             }
         }

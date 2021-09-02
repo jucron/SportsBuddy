@@ -85,10 +85,10 @@
                                 </div>
                             </div>
                         </form>
+                        <p></p>
                         <div th:if="${account.feedback} == true">
                             <div th:if="${account.getPosition()} == 1">
                                 <div class="alert alert-danger" role="alert" >
-                                    <p></p>
                                     <p5 th:text="${account.getMessage()}">Error creating account.</p5>
                                 </div>
                             </div>

@@ -13,6 +13,10 @@
             width: 4rem;
             height: 4rem;
         }
+        li {
+            position: relative;
+            right: 50px;
+        }
     </style>
 
 </head>
@@ -25,7 +29,11 @@
         <img src="/navbar.PNG" class="d-inline-block align-top" alt="" th:src="@{/images/navbar.PNG}">
         Sports Buddy
     </a>
-        <p style="position: relative; right: 200px;" th:text="${mainUser.getName()}">Logged as </p>
+    <li class="nav-item">
+        Logged as:
+        <p2 th:text="${mainUser.getName()}">Name</p2>
+        <a class="nav-link" href="logout">Log out</a>
+    </li>
 </nav>
 <div class="container my-2">
     <div class="card">
