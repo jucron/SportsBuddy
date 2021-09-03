@@ -5,6 +5,7 @@ import com.joaorenault.sportbuddy.domain.User;
 import com.joaorenault.sportbuddy.repositories.UserRepository;
 import com.joaorenault.sportbuddy.services.FeedbackService;
 import com.joaorenault.sportbuddy.services.HashService;
+import com.joaorenault.sportbuddy.services.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,8 +23,7 @@ public class IndexController {
 
     UserRepository userRepository;
     HashService hashService = new HashService();
-    Long mainUserId = null; //temporary session layer
-
+    static SessionService sessionService = new SessionService(null);
 
     @Autowired
     public IndexController(UserRepository userRepository) {
@@ -35,14 +35,14 @@ public class IndexController {
     public String startupPage (Model model) {
         model.addAttribute("login", new Login());
         model.addAttribute("account", new FeedbackService(false));
-        if (mainUserId!=null){
+        if (sessionService.sessionUserID!=null){
             return "matches/matches";
         }
         return "index";
     }
     @GetMapping({"logout"})
     public String logout () {
-        mainUserId = null;
+        sessionService.sessionUserID = null;
         return "redirect:index";
     }
 
@@ -135,7 +135,7 @@ public class IndexController {
             if (Objects.equals(value.getPassword(), passInput)) {
                 //password found
                 System.out.println("pass found");
-                mainUserId = value.getId();
+                sessionService.sessionUserID = value.getId();
                 break;
             } else if (!users.hasNext()) { //password not found
                 System.out.println("pass NOT found");
@@ -145,16 +145,5 @@ public class IndexController {
         //if all validations passed
         return "redirect:matches";
     }
-
-    @GetMapping("matches")
-    public String matches (Model model) {
-        User mainUser = userRepository.findById(mainUserId)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid User Id"));
-
-        model.addAttribute("mainUser", mainUser);
-        return "matches/matches";
-    }
-
-
 
 }
