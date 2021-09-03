@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <style>
+        #img1 {
+            position: relative;
+            width: 4rem;
+            height: 4rem;
+        }
+        #img2 {
+            position: relative;
+            left: 80px;
+            width: 15rem;
+            top: 50px;
+            /*height: 4rem;*/
+        }
+        #log {
+            position: relative;
+            right: 50px;
+        }
+        #username {
+            font-style: italic;
+        }
+    </style>
+
+</head>
+<body>
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+<!-- Image and text -->
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <img id="img1" src="/navbar.PNG" class="d-inline-block align-top" alt="" th:src="@{/images/navbar.PNG}">
+        Sports Buddy
+    </a>
+    <div id="log">
+        Logged as:
+        <a id="username" th:text="${mainUser.getName()}">Name</a>
+        <li class="nav">
+            <a class="nav-link" href="logout">Log out</a>
+        </li>
+    </div>
+</nav>
+<div class="container my-4">
+    <div class="row">
+    <div class="col-md-6">
+        <h3> Match creation </h3>
+        <div class="card">
+            <div class="card-body">
+                <div class="col-md-12">
+                    <form action="#" th:action="@{/matches/create_match}" th:object="${match}" method="post">
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <label for="name" class="col-form-label">Username</label>
+                                <input type="text" autocomplete="off" th:field="*{name}" class="form-control" id="name" placeholder="Brief description">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="date" class="col-form-label">Date</label>
+                                <input type="text" autocomplete="off" th:field="*{date}" class="form-control" id="date" placeholder="d / m / y">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="hour" class="col-form-label">Hour</label>
+                                <input type="text" autocomplete="off" th:field="*{hour}" class="form-control" id="hour">
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <label for="details" class="col-form-label">Details</label>
+                            <input type="text" autocomplete="off" th:field="*{details}" class="form-control" id="details" placeholder="Any notes about this event?">
+                        </div>
+                        <p></p>
+                        <div class="form-row align-items-center">
+                            <div class="col-auto my-1">
+                                <label class="mr-sm-2" for="inlineFormCustomSelect" th:field="*{sportChoice}" >Sport  </label>
+                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                    <option selected>Choose...</option>
+                                    <option value="1">Soccer</option>
+                                    <option value="2">Basketball</option>
+                                    <option value="3">Volleyball</option>
+                                    <option value="4">Tennis</option>
+                                    <option value="5">Table Tennis</option>
+                                    <option value="6">Baseball</option>
+                                </select>
+                            </div>
+                        </div>
+                            <p></p>
+                            <div class="col-md-6">
+                                <p></p>
+                                <input type="submit" href="create_match" class="btn btn-primary" value="Create match">
+                                <input type="submit" href="matches" class="btn btn-secondary" value="Back to matches">
+                        </div>
+                    </form>
+                    <p></p>
+                    <div th:if="${matchCreation.feedback} == true">
+                        <div th:if="${matchCreation.getPosition()} == 1">
+                            <div class="alert alert-danger" role="alert" >
+                                <p5 th:text="${matchCreation.getMessage()}">Error creating match.</p5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-4">
+        <img id="img2" src="logo2.jpg" class="d-inline-block align-top" alt="" th:src="@{/images/logo2.jpg}">
+    </div>
+    </div>
+</body>
+</html>

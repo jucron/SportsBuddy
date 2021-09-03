@@ -13,9 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
-import java.util.Iterator;
 import java.util.Objects;
 
 @Controller
@@ -51,7 +49,7 @@ public class IndexController {
     public String startupPageBadLogin (Model model) {
         model.addAttribute("login", new Login());
         model.addAttribute("account", new FeedbackService(
-                true,1,"Error logging in, username or password incorrect."));
+                true,1,"Error, username or password incorrect."));
         return "index";
     }
     //Good registration Index
@@ -85,7 +83,7 @@ public class IndexController {
     }
     // Process register input
     @PostMapping("register")
-    public String addUser (@Valid User user,
+    public String addUser (User user,
                            BindingResult result) throws NoSuchAlgorithmException {
         if (result.hasErrors() || Objects.equals(user.getUsername(), "") || Objects.equals(user.getPassword(), "")
                 || Objects.equals(user.getName(), "") || Objects.equals(user.getEmail(), "")) {
@@ -98,8 +96,7 @@ public class IndexController {
                 return "redirect:bad_register_username";
             }
         }
-        String passwordFromUser = (user.getPassword());
-        user.setPassword(hashService.hashPass(passwordFromUser));
+        user.setPassword(hashService.hashPass(user.getPassword()));
         userRepository.save(user);
         return "redirect:index_GoodRegister";
     }
@@ -110,40 +107,31 @@ public class IndexController {
         if (Objects.equals(login.getUsername(), "") || Objects.equals(login.getPassword(), "")) { //Validating form entry requirements (not blank)
             return "redirect:index_badlogin";
         }
-        if (login.getUsername()==null) {
+        if (login.getUsername() == null) {
             System.out.println("username null");
             return "redirect:index";
         }
         String usernameInput = login.getUsername();
+        System.out.println("username from login: " + usernameInput);
         String passInput = hashService.hashPass(login.getPassword());
-        System.out.println("Password from login: "+ passInput);
+        System.out.println("Password from login: " + passInput);
         //Step 1: validate login
-        Iterator<User> users = userRepository.findAll().iterator();
-        while (users.hasNext()) {
-            if (Objects.equals(users.next().getName(), usernameInput)) {
+        for (User userLogin : userRepository.findAll()) {
+            System.out.println(userLogin.getUsername());
+            if (Objects.equals(userLogin.getUsername(), usernameInput)) {
                 //username found
                 System.out.println("username found");
-                break;
-            } else if (!users.hasNext()) { //username not found
-                System.out.println("username not found");
-
-                return "redirect:index_badlogin";
+                //Step 2: validate password
+                for (User userPass : userRepository.findAll()) {
+                    if (Objects.equals(userPass.getPassword(), passInput)) {
+                        System.out.println("Password found");
+                        //password found
+                        sessionService.setSessionUserID(userPass.getId());
+                        return "redirect:matches/matches";
+                    }
+                }
             }
         }
-        //Step 2: validate password
-        for (User value : userRepository.findAll()) {
-            if (Objects.equals(value.getPassword(), passInput)) {
-                //password found
-                System.out.println("pass found");
-                sessionService.sessionUserID = value.getId();
-                break;
-            } else if (!users.hasNext()) { //password not found
-                System.out.println("pass NOT found");
-                return "redirect:index_badlogin";
-            }
-        }
-        //if all validations passed
-        return "redirect:matches";
+        return "redirect:index_badlogin";
     }
-
 }

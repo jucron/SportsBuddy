@@ -10,11 +10,11 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Enumerated(value = EnumType.STRING)
-    private Sport sport;
+    @NotBlank(message = "Name is mandatory")
+    private String name;
 
     @ManyToOne
-    private User owner;
+    private User users;
 
     @NotBlank(message = "Date is mandatory")
     private String date;
@@ -27,7 +27,43 @@ public class Match {
 
     private String details;
 
-    private int participants;
+    private Long ownerID;
+
+    private int numberOfParticipants;
+
+    private int sportChoice;
+
+    @OneToOne
+    private Sports sports;
+
+    public Match(String name, String date, String hour, String location, String details, Long ownerID, Sports sports) {
+        this.name = name;
+        this.date = date;
+        this.hour = hour;
+        this.location = location;
+        this.details = details;
+        this.ownerID = ownerID;
+        this.sports = sports;
+    }
+
+    public int getSportChoice() {
+        return sportChoice;
+    }
+
+    public void setSportChoice(int sportChoice) {
+        this.sportChoice = sportChoice;
+    }
+
+    public Match() {
+    }
+
+    public Sports getSports() {
+        return sports;
+    }
+
+    public void setSports(Sports sports) {
+        this.sports = sports;
+    }
 
     public Long getId() {
         return id;
@@ -37,20 +73,20 @@ public class Match {
         this.id = id;
     }
 
-    public Sport getSport() {
-        return sport;
+    public String getName() {
+        return name;
     }
 
-    public void setSport(Sport sport) {
-        this.sport = sport;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public User getOwner() {
-        return owner;
+    public User getUsers() {
+        return users;
     }
 
-    public void setOwner(User owner) {
-        this.owner = owner;
+    public void setUsers(User users) {
+        this.users = users;
     }
 
     public String getDate() {
@@ -85,11 +121,19 @@ public class Match {
         this.details = details;
     }
 
-    public int getParticipants() {
-        return participants;
+    public Long getOwnerID() {
+        return ownerID;
     }
 
-    public void setParticipants(int participants) {
-        this.participants = participants;
+    public void setOwnerID(Long ownerID) {
+        this.ownerID = ownerID;
+    }
+
+    public int getNumberOfParticipants() {
+        return numberOfParticipants;
+    }
+
+    public void setNumberOfParticipants(int numberOfParticipants) {
+        this.numberOfParticipants = numberOfParticipants;
     }
 }

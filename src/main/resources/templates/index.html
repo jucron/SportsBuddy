@@ -34,13 +34,12 @@
             <p2>Please login or register</p2>
             <p> </p>
             <form action="#" th:action="@{/login}" th:object="${login}" method="post">
-                <div class="form-floating mb-3">
-                    <label for="floatingInput">Username</label>
-                    <input autocomplete="off" type="text" th:field="*{username}" class="form-control" id="floatingInput" placeholder="username">
-<!--                    <input type="text" autocomplete="off" th:field="*{username}" class="form-control" id="username">-->
+                <div class="form-group">
+                    <label for="floatingInput"></label>
+                    <input autocomplete="off" type="text" th:field="*{username}" class="form-control" id="floatingInput" placeholder="Username">
                 </div>
-                <div class="form-floating">
-                    <label for="floatingPassword">Password</label>
+                <div class="form-group">
+                    <label for="floatingPassword"></label>
                     <input autocomplete="off" type="password" th:field="*{password}" class="form-control" id="floatingPassword" placeholder="Password">
                 </div>
                 <p> </p>
