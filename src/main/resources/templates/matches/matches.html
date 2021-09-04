@@ -34,7 +34,7 @@
     </a>
     <div id="log">
         Logged as:
-        <a id="username" th:text="${mainUser.getName()}">Name</a>
+        <a id="username" th:text="${mainUser.getUsername()}">Name</a>
         <li class="nav">
             <a class="nav-link" href="logout">Log out</a>
         </li>
@@ -46,7 +46,7 @@
         <div class="card-body">
             <div th:switch="${matches}" class="container my-5">
                 <p class="my-5">
-                    <a href="/matches/create_match_page" class="btn btn-primary"><i
+                    <a href="create_match_page" class="btn btn-primary"><i
                             class="fas fa-user-plus ml-2"> Create a new match</i></a>
                 </p>
                 <div class="col-md-10">
@@ -61,17 +61,21 @@
                                 <th>Date</th>
                                 <th>Hour</th>
                                 <th>Location</th>
+                                <th>Owner</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="match : ${matches}">
                                 <td th:text="${match.getName()}"></td>
-                                <td th:text="${match.getSports().sportSelected()}"></td>
+                                <td th:text="${match.getSportName)}"></td>
                                 <td th:text="${match.getNumberOfParticipants()}"></td>
                                 <td th:text="${match.getDate()}"></td>
                                 <td th:text="${match.getHour()}"></td>
                                 <td th:text="${match.getLocation}"></td>
-                                <td><a th:href="@{/matches/match_details/{id}(id=${match.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>
+                                <td th:text="${match.getOwnerName}"></td>
+                                <td>Participate</td>
+                                <td>Delete</td>
+<!--                                <td><a th:href="@{/matches/match_details/{id}(id=${match.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>-->
 <!--                                <td><a th:href="@{/students/delete/{id}(id=${match.id})}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>-->
                             </tr>
                             </tbody>

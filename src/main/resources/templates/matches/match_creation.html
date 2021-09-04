@@ -41,7 +41,7 @@
     </a>
     <div id="log">
         Logged as:
-        <a id="username" th:text="${mainUser.getName()}">Name</a>
+        <a id="username" th:text="${mainUser.getUsername()}">Name</a>
         <li class="nav">
             <a class="nav-link" href="logout">Log out</a>
         </li>
@@ -54,11 +54,15 @@
         <div class="card">
             <div class="card-body">
                 <div class="col-md-12">
-                    <form action="#" th:action="@{/matches/create_match}" th:object="${match}" method="post">
+                    <form action="#" th:action="@{create_match}" th:object="${match}" method="get">
                         <div class="row">
                             <div class="form-group col-md-12">
-                                <label for="name" class="col-form-label">Username</label>
+                                <label for="name" class="col-form-label">Name of match</label>
                                 <input type="text" autocomplete="off" th:field="*{name}" class="form-control" id="name" placeholder="Brief description">
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="location" class="col-form-label">Location</label>
+                                <input type="text" autocomplete="off" th:field="*{location}" class="form-control" id="location" placeholder="Where it will be?">
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="date" class="col-form-label">Date</label>
@@ -66,7 +70,7 @@
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="hour" class="col-form-label">Hour</label>
-                                <input type="text" autocomplete="off" th:field="*{hour}" class="form-control" id="hour">
+                                <input type="text" autocomplete="off" th:field="*{hour}" class="form-control" id="hour" placeholder="24hrs format">
                             </div>
                         </div>
                         <div class="form-group col-md-12">
@@ -76,23 +80,23 @@
                         <p></p>
                         <div class="form-row align-items-center">
                             <div class="col-auto my-1">
-                                <label class="mr-sm-2" for="inlineFormCustomSelect" th:field="*{sportChoice}" >Sport  </label>
+                                <label class="mr-sm-2" for="inlineFormCustomSelect" >Sport  </label>
                                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
-                                    <option selected>Choose...</option>
-                                    <option value="1">Soccer</option>
-                                    <option value="2">Basketball</option>
-                                    <option value="3">Volleyball</option>
-                                    <option value="4">Tennis</option>
-                                    <option value="5">Table Tennis</option>
-                                    <option value="6">Baseball</option>
+<!--                                    <option selected>Choose...</option>-->
+                                    <option value="1" th:field="*{sportChoice}">Soccer </option>
+                                    <option value="2" th:field="*{sportChoice}">Basketball</option>
+                                    <option value="3" th:field="*{sportChoice}">Volleyball</option>
+                                    <option value="4" th:field="*{sportChoice}">Tennis</option>
+                                    <option value="5" th:field="*{sportChoice}">Table Tennis</option>
+                                    <option value="6" th:field="*{sportChoice}">Baseball</option>
                                 </select>
                             </div>
                         </div>
                             <p></p>
                             <div class="col-md-6">
                                 <p></p>
-                                <input type="submit" href="create_match" class="btn btn-primary" value="Create match">
-                                <input type="submit" href="matches" class="btn btn-secondary" value="Back to matches">
+                                <input type="submit" href="matches/create_match" class="btn btn-primary" value="Create match">
+                                <input type="button" href="matches/matches" class="btn btn-secondary" value="Back to matches">
                         </div>
                     </form>
                     <p></p>

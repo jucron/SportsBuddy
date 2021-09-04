@@ -1,9 +1,12 @@
 package com.joaorenault.sportbuddy.services;
 
-public final class SessionService {
-    public Long sessionUserID;
+public class SessionService {
 
-    private SessionService() {
+    private static Long sessionUserID;
+
+    private static String sessionUserName;
+
+    public SessionService() {
     }
 
     public SessionService(Long sessionUserID) {
@@ -16,5 +19,13 @@ public final class SessionService {
 
     public void setSessionUserID(Long sessionUserID) {
         this.sessionUserID = sessionUserID;
+    }
+
+    public static String getSessionUserName() {
+        return sessionUserName;
+    }
+
+    public static void setSessionUserName(String sessionUserName) {
+        SessionService.sessionUserName = sessionUserName;
     }
 }

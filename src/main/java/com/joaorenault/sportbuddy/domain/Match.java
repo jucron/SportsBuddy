@@ -29,40 +29,15 @@ public class Match {
 
     private Long ownerID;
 
+    private String OwnerName;
+
     private int numberOfParticipants;
 
     private int sportChoice;
 
-    @OneToOne
-    private Sports sports;
-
-    public Match(String name, String date, String hour, String location, String details, Long ownerID, Sports sports) {
-        this.name = name;
-        this.date = date;
-        this.hour = hour;
-        this.location = location;
-        this.details = details;
-        this.ownerID = ownerID;
-        this.sports = sports;
-    }
-
-    public int getSportChoice() {
-        return sportChoice;
-    }
-
-    public void setSportChoice(int sportChoice) {
-        this.sportChoice = sportChoice;
-    }
+    private String sportName;
 
     public Match() {
-    }
-
-    public Sports getSports() {
-        return sports;
-    }
-
-    public void setSports(Sports sports) {
-        this.sports = sports;
     }
 
     public Long getId() {
@@ -129,11 +104,35 @@ public class Match {
         this.ownerID = ownerID;
     }
 
+    public String getOwnerName() {
+        return OwnerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        OwnerName = ownerName;
+    }
+
     public int getNumberOfParticipants() {
         return numberOfParticipants;
     }
 
     public void setNumberOfParticipants(int numberOfParticipants) {
         this.numberOfParticipants = numberOfParticipants;
+    }
+
+    public int getSportChoice() {
+        return sportChoice;
+    }
+
+    public void setSportChoice(int sportChoice) {
+        this.sportChoice = sportChoice;
+    }
+
+    public String getSportName() {
+        return sportName;
+    }
+
+    public void setSportName(String sportName) {
+        this.sportName = sportName;
     }
 }

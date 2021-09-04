@@ -19,9 +19,9 @@ import java.util.Objects;
 @Controller
 public class IndexController {
 
-    UserRepository userRepository;
-    HashService hashService = new HashService();
-    static SessionService sessionService = new SessionService(null);
+    private UserRepository userRepository;
+    private HashService hashService = new HashService();
+    private SessionService sessionService = new SessionService(null);
 
     @Autowired
     public IndexController(UserRepository userRepository) {
@@ -33,14 +33,14 @@ public class IndexController {
     public String startupPage (Model model) {
         model.addAttribute("login", new Login());
         model.addAttribute("account", new FeedbackService(false));
-        if (sessionService.sessionUserID!=null){
+        if (sessionService.getSessionUserID()!=null){
             return "matches/matches";
         }
         return "index";
     }
     @GetMapping({"logout"})
     public String logout () {
-        sessionService.sessionUserID = null;
+        sessionService.setSessionUserID(null);
         return "redirect:index";
     }
 
@@ -117,21 +117,21 @@ public class IndexController {
         System.out.println("Password from login: " + passInput);
         //Step 1: validate login
         for (User userLogin : userRepository.findAll()) {
-            System.out.println(userLogin.getUsername());
             if (Objects.equals(userLogin.getUsername(), usernameInput)) {
                 //username found
-                System.out.println("username found");
+                System.out.println("username found in DB");
                 //Step 2: validate password
                 for (User userPass : userRepository.findAll()) {
                     if (Objects.equals(userPass.getPassword(), passInput)) {
-                        System.out.println("Password found");
-                        //password found
+                        System.out.println("Password found in DB");
                         sessionService.setSessionUserID(userPass.getId());
+                        sessionService.setSessionUserName(userPass.getName());
                         return "redirect:matches/matches";
                     }
                 }
             }
         }
+        System.out.println("Username or password failed");
         return "redirect:index_badlogin";
     }
 }

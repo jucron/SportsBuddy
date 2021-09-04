@@ -31,27 +31,9 @@ public class User {
     @OneToMany
     private List<Match> participatingMatches;
 
-    @OneToOne
-    private Sports sports;
-
     public User() {
     }
 
-    public User(String username, String password, String name, String email, Sports sports) {
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.email = email;
-        this.sports = sports;
-    }
-
-    public Sports getSports() {
-        return sports;
-    }
-
-    public void setSports(Sports sports) {
-        this.sports = sports;
-    }
 
     public Long getId() {
         return id;
