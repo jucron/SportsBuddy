@@ -49,7 +49,7 @@ public class IndexController {
     public String startupPageBadLogin (Model model) {
         model.addAttribute("login", new Login());
         model.addAttribute("account", new FeedbackService(
-                true,1,"Error, username or password incorrect."));
+                true,1,"Error, username and password are incorrect or do not exist."));
         return "index";
     }
     //Good registration Index
@@ -104,12 +104,10 @@ public class IndexController {
     //Login validation
     @PostMapping("login")
     public String login (Login login) throws NoSuchAlgorithmException {
-        if (Objects.equals(login.getUsername(), "") || Objects.equals(login.getPassword(), "")) { //Validating form entry requirements (not blank)
+        if (Objects.equals(login.getUsername(), "")
+                || Objects.equals(login.getPassword(), "")
+                || (login.getUsername() == null)) { //Validating form entry requirements (not blank)
             return "redirect:index_badlogin";
-        }
-        if (login.getUsername() == null) {
-            System.out.println("username null");
-            return "redirect:index";
         }
         String usernameInput = login.getUsername();
         System.out.println("username from login: " + usernameInput);

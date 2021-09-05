@@ -81,14 +81,14 @@
                         <div class="form-row align-items-center">
                             <div class="col-auto my-1">
                                 <label class="mr-sm-2" for="inlineFormCustomSelect" >Sport  </label>
-                                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                <select th:field="*{sportChoice}" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
 <!--                                    <option selected>Choose...</option>-->
-                                    <option value="1" th:field="*{sportChoice}">Soccer </option>
-                                    <option value="2" th:field="*{sportChoice}">Basketball</option>
-                                    <option value="3" th:field="*{sportChoice}">Volleyball</option>
-                                    <option value="4" th:field="*{sportChoice}">Tennis</option>
-                                    <option value="5" th:field="*{sportChoice}">Table Tennis</option>
-                                    <option value="6" th:field="*{sportChoice}">Baseball</option>
+                                    <option value="1">Soccer </option>
+                                    <option value="2">Basketball</option>
+                                    <option value="3">Volleyball</option>
+                                    <option value="4">Tennis</option>
+                                    <option value="5">Table Tennis</option>
+                                    <option value="6">Baseball</option>
                                 </select>
                             </div>
                         </div>

@@ -5,6 +5,7 @@ import com.joaorenault.sportbuddy.domain.User;
 import com.joaorenault.sportbuddy.repositories.MatchRepository;
 import com.joaorenault.sportbuddy.repositories.UserRepository;
 import com.joaorenault.sportbuddy.services.FeedbackService;
+import com.joaorenault.sportbuddy.services.FindServiceImpl;
 import com.joaorenault.sportbuddy.services.SessionService;
 import com.joaorenault.sportbuddy.services.SportsService;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ public class MatchesController {
 
     private UserRepository userRepository;
     private MatchRepository matchRepository;
+    private FindServiceImpl userService = new FindServiceImpl();
     private SessionService sessionService = new SessionService();
     private SportsService sportsService = new SportsService();
 
@@ -55,14 +57,22 @@ public class MatchesController {
                 Objects.equals(match.getDate(), "") ||
                 Objects.equals(match.getHour(), "") ||
                 Objects.equals(match.getDetails(), "")) { //Validating form entry requirements (not blank)
-            return "redirect:match_bad_create"; //todo
+            return "redirect:match_bad_create";
         }
         // Associating fields not completed and saving in repository
-        match.setOwnerID(sessionService.getSessionUserID());
+        Long userID = sessionService.getSessionUserID();
+        String sportSelected = sportsService.sportSelected(match.getSportChoice());
+        User user = userRepository.findById(userID)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid student Id:" + userID));
+
+        match.setOwnerID(userID);
         match.setNumberOfParticipants(1);
-        match.setOwnerName(sessionService.getSessionUserName());
-        match.setSportName(sportsService.sportSelected(match.getSportChoice()));
+        match.getUsersAttending().add(user);
+        user.getParticipatingMatches().add(match);
+        match.setOwnerName(user.getName());
+        match.setSportName(sportSelected);
         matchRepository.save(match);
+        userRepository.save(user);
         return "redirect:matches";
     }
     @GetMapping("match_bad_create")
@@ -72,7 +82,7 @@ public class MatchesController {
 
         model.addAttribute("mainUser", mainUser);
         model.addAttribute("match", new Match());
-        model.addAttribute("account", new FeedbackService(
+        model.addAttribute("matchCreation", new FeedbackService(
                 true,1,"Must complete all the fields."));
         return "matches/match_creation";
     }

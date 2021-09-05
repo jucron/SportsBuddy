@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,8 +29,8 @@ public class User {
     @NotBlank(message = "Email is mandatory")
     private String email;
 
-    @OneToMany
-    private List<Match> participatingMatches;
+    @ManyToMany
+    private List<Match> participatingMatches = new ArrayList<>();
 
     public User() {
     }

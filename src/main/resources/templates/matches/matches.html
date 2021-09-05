@@ -66,13 +66,13 @@
                             </thead>
                             <tbody>
                             <tr th:each="match : ${matches}">
-                                <td th:text="${match.getName()}"></td>
-                                <td th:text="${match.getSportName)}"></td>
-                                <td th:text="${match.getNumberOfParticipants()}"></td>
-                                <td th:text="${match.getDate()}"></td>
-                                <td th:text="${match.getHour()}"></td>
-                                <td th:text="${match.getLocation}"></td>
-                                <td th:text="${match.getOwnerName}"></td>
+                                <td th:text="${match.name}"></td>
+                                <td th:text="${match.sportName}"></td>
+                                <td th:text="${match.numberOfParticipants}"></td>
+                                <td th:text="${match.date}"></td>
+                                <td th:text="${match.hour}"></td>
+                                <td th:text="${match.location}"></td>
+                                <td th:text="${match.ownerName}"></td>
                                 <td>Participate</td>
                                 <td>Delete</td>
 <!--                                <td><a th:href="@{/matches/match_details/{id}(id=${match.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>-->

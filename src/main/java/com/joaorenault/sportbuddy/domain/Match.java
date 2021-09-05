@@ -2,6 +2,8 @@ package com.joaorenault.sportbuddy.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Match {
@@ -13,8 +15,8 @@ public class Match {
     @NotBlank(message = "Name is mandatory")
     private String name;
 
-    @ManyToOne
-    private User users;
+    @ManyToMany
+    private List<User> usersAttending = new ArrayList<>();
 
     @NotBlank(message = "Date is mandatory")
     private String date;
@@ -29,7 +31,7 @@ public class Match {
 
     private Long ownerID;
 
-    private String OwnerName;
+    private String ownerName;
 
     private int numberOfParticipants;
 
@@ -56,12 +58,12 @@ public class Match {
         this.name = name;
     }
 
-    public User getUsers() {
-        return users;
+    public List<User> getUsersAttending() {
+        return usersAttending;
     }
 
-    public void setUsers(User users) {
-        this.users = users;
+    public void setUsersAttending(List<User> usersAttending) {
+        this.usersAttending = usersAttending;
     }
 
     public String getDate() {
@@ -105,11 +107,11 @@ public class Match {
     }
 
     public String getOwnerName() {
-        return OwnerName;
+        return ownerName;
     }
 
     public void setOwnerName(String ownerName) {
-        OwnerName = ownerName;
+        this.ownerName = ownerName;
     }
 
     public int getNumberOfParticipants() {
