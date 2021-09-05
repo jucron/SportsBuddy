@@ -86,4 +86,20 @@ public class MatchesController {
                 true,1,"Must complete all the fields."));
         return "matches/match_creation";
     }
+    @GetMapping("match_participate")
+    public String matchParticipate (Model model) {
+
+        return "redirect:matches";
+    }
+    @GetMapping("match_leave")
+    public String matchParticipate (Model model) {
+
+        return "redirect:matches";
+    }
+    @GetMapping("match_delete")
+    public String matchParticipate (Model model) {
+
+
+        return "redirect:matches";
+    }
 }

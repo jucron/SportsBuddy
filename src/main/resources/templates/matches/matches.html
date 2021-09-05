@@ -33,10 +33,10 @@
         Sports Buddy
     </a>
     <div id="log">
-        Logged as:
+        Logged in as:
         <a id="username" th:text="${mainUser.getUsername()}">Name</a>
         <li class="nav">
-            <a class="nav-link" href="logout">Log out</a>
+            <a class="nav-link" href="#" th:href="@{/logout}">Log out</a>
         </li>
     </div>
 
@@ -49,7 +49,7 @@
                     <a href="create_match_page" class="btn btn-primary"><i
                             class="fas fa-user-plus ml-2"> Create a new match</i></a>
                 </p>
-                <div class="col-md-10">
+                <div class="col-md-12">
                     <h2 th:case="null">No matches!</h2>
                     <div th:case="*">
                         <table class="table table-striped table-responsive-md">
@@ -73,15 +73,24 @@
                                 <td th:text="${match.hour}"></td>
                                 <td th:text="${match.location}"></td>
                                 <td th:text="${match.ownerName}"></td>
-                                <td>Participate</td>
-                                <td>Delete</td>
-<!--                                <td><a th:href="@{/matches/match_details/{id}(id=${match.id})}" class="btn btn-primary"><i class="fas fa-user-edit ml-2"></i></a></td>-->
-<!--                                <td><a th:href="@{/students/delete/{id}(id=${match.id})}" class="btn btn-primary"><i class="fas fa-user-times ml-2"></i></a></td>-->
+                                <td style="width: 5.00%"> <!-- Participate: NOT for users that have that match -->
+                                    <span th:if="${mainUser.getParticipatingMatches().contains(match)}"><button class="btn btn-info" disabled>Participate</button></span>
+                                    <span th:unless="${mainUser.getParticipatingMatches().contains(match)}"><button th:href="@{/matches/match_participate/{id}(id=${match.id})}" class="btn btn-info">Participate</button></span>
+                                </td>
+                                <td style="width: 5.00%"> <!-- Leave match: ONLY for users that have that match AND are not owners-->
+                                    <span th:if="${(mainUser.getParticipatingMatches().contains(match)) && ((match.ownerID) != (mainUser.id))}">
+                                        <button th:href="@{/matches/match_leave/{id}(id=${match.id})}" class="btn btn-warning">Leave</button></span>
+                                    <span th:unless="${(mainUser.getParticipatingMatches().contains(match)) && ((match.ownerID) != (mainUser.id))}">
+                                        <button class="btn btn-warning" disabled>Leave</button></span>
+                                </td>
+                                <td style="width: 5.00%"> <!-- Delete match: ONLY for users that OWN that match-->
+                                    <span th:if="${match.ownerID} == ${mainUser.id}"><button th:href="@{/matches/match_delete/{id}(id=${match.id})}" class="btn btn-danger">Delete</button></span>
+                                    <span th:unless="${match.ownerID} == ${mainUser.id}"><button class="btn btn-danger" disabled>Delete</button></span>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
                     </div>
-
                 </div>
             </div>
         </div>

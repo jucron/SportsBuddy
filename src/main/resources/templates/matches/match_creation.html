@@ -40,10 +40,10 @@
         Sports Buddy
     </a>
     <div id="log">
-        Logged as:
+        Logged in as:
         <a id="username" th:text="${mainUser.getUsername()}">Name</a>
         <li class="nav">
-            <a class="nav-link" href="logout">Log out</a>
+            <a class="nav-link" href="#" th:href="@{/logout}">Log out</a>
         </li>
     </div>
 </nav>
@@ -96,7 +96,7 @@
                             <div class="col-md-6">
                                 <p></p>
                                 <input type="submit" href="matches/create_match" class="btn btn-primary" value="Create match">
-                                <input type="button" href="matches/matches" class="btn btn-secondary" value="Back to matches">
+                                <a type="button" href="matches/matches" th:href="@{/matches/matches}" class="btn btn-secondary">Back to matches</a>
                         </div>
                     </form>
                     <p></p>
