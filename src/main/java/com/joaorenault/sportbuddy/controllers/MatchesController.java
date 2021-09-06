@@ -11,6 +11,7 @@ import com.joaorenault.sportbuddy.services.SportsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Objects;
@@ -30,7 +31,7 @@ public class MatchesController {
         this.matchRepository = matchRepository;
     }
 
-    @GetMapping("matches")
+    @GetMapping({"matches","match_delete/matches","match_leave/matches","match_participate/matches"})
     public String matches (Model model) {
         User mainUser = userRepository.findById(sessionService.getSessionUserID())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid User Id"));
@@ -86,20 +87,41 @@ public class MatchesController {
                 true,1,"Must complete all the fields."));
         return "matches/match_creation";
     }
-    @GetMapping("match_participate")
-    public String matchParticipate (Model model) {
-
+    @GetMapping("match_participate/{id}")
+    public String matchParticipate (@PathVariable("id") long id) {
+        User mainUser = userRepository.findById(sessionService.getSessionUserID())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid User Id"));
+        Match match = matchRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Match Id"));
+        match.setNumberOfParticipants(match.getNumberOfParticipants()+1);
+        match.getUsersAttending().add(mainUser);
+        mainUser.getParticipatingMatches().add(match);
+        matchRepository.save(match);
+        userRepository.save(mainUser);
         return "redirect:matches";
     }
-    @GetMapping("match_leave")
-    public String matchParticipate (Model model) {
-
+    @GetMapping("match_leave/{id}")
+    public String matchLeave (@PathVariable("id") long id) {
+        User mainUser = userRepository.findById(sessionService.getSessionUserID())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid User Id"));
+        Match match = matchRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Match Id"));
+        match.setNumberOfParticipants(match.getNumberOfParticipants()-1);
+        match.getUsersAttending().remove(mainUser);
+        mainUser.getParticipatingMatches().remove(match);
+        matchRepository.save(match);
+        userRepository.save(mainUser);
         return "redirect:matches";
     }
-    @GetMapping("match_delete")
-    public String matchParticipate (Model model) {
-
-
+    @GetMapping("match_delete/{id}")
+    public String matchDelete (@PathVariable("id") long id) {
+        User mainUser = userRepository.findById(sessionService.getSessionUserID())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid User Id"));
+        Match match = matchRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Match Id"));
+        mainUser.getParticipatingMatches().remove(match);
+        matchRepository.delete(match);
+        userRepository.save(mainUser);
         return "redirect:matches";
     }
 }

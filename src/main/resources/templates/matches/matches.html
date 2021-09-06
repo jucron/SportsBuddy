@@ -75,16 +75,16 @@
                                 <td th:text="${match.ownerName}"></td>
                                 <td style="width: 5.00%"> <!-- Participate: NOT for users that have that match -->
                                     <span th:if="${mainUser.getParticipatingMatches().contains(match)}"><button class="btn btn-info" disabled>Participate</button></span>
-                                    <span th:unless="${mainUser.getParticipatingMatches().contains(match)}"><button th:href="@{/matches/match_participate/{id}(id=${match.id})}" class="btn btn-info">Participate</button></span>
+                                    <span th:unless="${mainUser.getParticipatingMatches().contains(match)}"><a th:href="@{/matches/match_participate/{id}(id=${match.getId()})}" class="btn btn-info">Participate</a></span>
                                 </td>
                                 <td style="width: 5.00%"> <!-- Leave match: ONLY for users that have that match AND are not owners-->
                                     <span th:if="${(mainUser.getParticipatingMatches().contains(match)) && ((match.ownerID) != (mainUser.id))}">
-                                        <button th:href="@{/matches/match_leave/{id}(id=${match.id})}" class="btn btn-warning">Leave</button></span>
+                                        <a th:href="@{/matches/match_leave/{id}(id=${match.getId()})}" class="btn btn-warning">Leave</a></span>
                                     <span th:unless="${(mainUser.getParticipatingMatches().contains(match)) && ((match.ownerID) != (mainUser.id))}">
                                         <button class="btn btn-warning" disabled>Leave</button></span>
                                 </td>
                                 <td style="width: 5.00%"> <!-- Delete match: ONLY for users that OWN that match-->
-                                    <span th:if="${match.ownerID} == ${mainUser.id}"><button th:href="@{/matches/match_delete/{id}(id=${match.id})}" class="btn btn-danger">Delete</button></span>
+                                    <span th:if="${match.ownerID} == ${mainUser.id}"><a th:href="@{/matches/match_delete/{id}(id=${match.getId()})}" class="btn btn-danger">Delete</a></span>
                                     <span th:unless="${match.ownerID} == ${mainUser.id}"><button class="btn btn-danger" disabled>Delete</button></span>
                                 </td>
                             </tr>

@@ -110,18 +110,18 @@ public class IndexController {
             return "redirect:index_badlogin";
         }
         String usernameInput = login.getUsername();
-        System.out.println("username from login: " + usernameInput);
+//        System.out.println("username from login: " + usernameInput);
         String passInput = hashService.hashPass(login.getPassword());
-        System.out.println("Password from login: " + passInput);
+//        System.out.println("Password from login: " + passInput);
         //Step 1: validate login
         for (User userLogin : userRepository.findAll()) {
             if (Objects.equals(userLogin.getUsername(), usernameInput)) {
                 //username found
-                System.out.println("username found in DB");
+//                System.out.println("username found in DB");
                 //Step 2: validate password
                 for (User userPass : userRepository.findAll()) {
                     if (Objects.equals(userPass.getPassword(), passInput)) {
-                        System.out.println("Password found in DB");
+//                        System.out.println("Password found in DB");
                         sessionService.setSessionUserID(userPass.getId());
                         sessionService.setSessionUserName(userPass.getName());
                         return "redirect:matches/matches";
@@ -129,7 +129,7 @@ public class IndexController {
                 }
             }
         }
-        System.out.println("Username or password failed");
+//        System.out.println("Username or password failed");
         return "redirect:index_badlogin";
     }
 }
