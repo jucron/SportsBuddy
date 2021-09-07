@@ -122,8 +122,8 @@ public class IndexController {
                 for (User userPass : userRepository.findAll()) {
                     if (Objects.equals(userPass.getPassword(), passInput)) {
 //                        System.out.println("Password found in DB");
-                        sessionService.setSessionUserID(userPass.getId());
-                        sessionService.setSessionUserName(userPass.getName());
+                        sessionService.setSessionUserID(userLogin.getId());
+                        sessionService.setSessionUserName(userLogin.getName());
                         return "redirect:matches/matches";
                     }
                 }
