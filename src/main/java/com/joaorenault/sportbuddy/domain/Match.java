@@ -42,6 +42,21 @@ public class Match {
     public Match() {
     }
 
+    public Match(Long id, String name, List<User> usersAttending, String date, String hour, String location, String details, Long ownerID, String ownerName, int numberOfParticipants, int sportChoice, String sportName) {
+        this.id = id;
+        this.name = name;
+        this.usersAttending = usersAttending;
+        this.date = date;
+        this.hour = hour;
+        this.location = location;
+        this.details = details;
+        this.ownerID = ownerID;
+        this.ownerName = ownerName;
+        this.numberOfParticipants = numberOfParticipants;
+        this.sportChoice = sportChoice;
+        this.sportName = sportName;
+    }
+
     public Long getId() {
         return id;
     }

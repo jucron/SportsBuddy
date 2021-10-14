@@ -13,5 +13,4 @@ public class HashService {
         String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
         return myHash;
     }
-
 }

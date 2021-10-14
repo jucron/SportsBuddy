@@ -43,7 +43,6 @@ public class IndexController {
         sessionService.setSessionUserID(null);
         return "redirect:index";
     }
-
     //Bad Login index
     @GetMapping({"index_badlogin"})
     public String startupPageBadLogin (Model model) {
