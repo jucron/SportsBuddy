@@ -2,11 +2,10 @@ package com.joaorenault.sportbuddy.controllers;
 
 import com.joaorenault.sportbuddy.domain.Login;
 import com.joaorenault.sportbuddy.domain.User;
-import com.joaorenault.sportbuddy.repositories.UserRepository;
 import com.joaorenault.sportbuddy.services.FeedbackService;
 import com.joaorenault.sportbuddy.services.HashService;
 import com.joaorenault.sportbuddy.services.SessionService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.joaorenault.sportbuddy.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,13 +18,12 @@ import java.util.Objects;
 @Controller
 public class IndexController {
 
-    private UserRepository userRepository;
+    private final UserService userService;
     private HashService hashService = new HashService();
     private SessionService sessionService = new SessionService(null);
 
-    @Autowired
-    public IndexController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public IndexController(UserService userService) {
+        this.userService = userService;
     }
 
     //Standard index
@@ -89,14 +87,15 @@ public class IndexController {
             return "redirect:bad_register_blank";
         }
         //Checking username already registered
-        for (User value : userRepository.findAll()) {
+
+        for (User value : userService.getUsers()) {
             if (Objects.equals(value.getUsername(), user.getUsername())) {
                 //username already exists
                 return "redirect:bad_register_username";
             }
         }
         user.setPassword(hashService.hashPass(user.getPassword()));
-        userRepository.save(user);
+        userService.saveUser(user);
         return "redirect:index_GoodRegister";
     }
 
@@ -113,12 +112,12 @@ public class IndexController {
         String passInput = hashService.hashPass(login.getPassword());
 //        System.out.println("Password from login: " + passInput);
         //Step 1: validate login
-        for (User userLogin : userRepository.findAll()) {
+        for (User userLogin : userService.getUsers()) {
             if (Objects.equals(userLogin.getUsername(), usernameInput)) {
                 //username found
 //                System.out.println("username found in DB");
                 //Step 2: validate password
-                for (User userPass : userRepository.findAll()) {
+                for (User userPass : userService.getUsers()) {
                     if (Objects.equals(userPass.getPassword(), passInput)) {
 //                        System.out.println("Password found in DB");
                         sessionService.setSessionUserID(userLogin.getId());
