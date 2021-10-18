@@ -67,7 +67,7 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
         match.setNumberOfParticipants(1);
         match.getUsersAttending().add(user);
         match.setOwnerName(user.getName());
-        match.setSportName(sportsService.sportSelected(2));
+        match.setSportName(sportsService.sportSelected(sport));
         matchRepository.save(match);
         user.getParticipatingMatches().add(match);
         userRepository.save(user);
