@@ -32,23 +32,43 @@
             <div class="card">
                 <div class="card-body">
                     <div class="col-md-12">
-                        <form action="#" th:action="@{/register}" th:object="${user}" method="post">
+                        <form action="#" th:action="@{/register}" method="post">
                             <div class="row">
-                                <div class="form-group col-md-8">
-                                    <label for="name" class="col-form-label">Username</label>
-                                    <input type="text" autocomplete="off" th:field="*{username}" class="form-control" id="username">
+                                <div class="form-group col-md-8" th:object="${login}">
+                                    <label for="username" class="col-form-label">Username</label>
+                                    <input type="text" id="username" autocomplete="off" th:field="*{username}" class="form-control" th:errorclass="'form-control is-invalid'"/>
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('username')}">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('username')}" th:text="${err}"></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-8">
+                                <div class="form-group col-md-8" th:object="${login}">
                                     <label for="password" class="col-form-label">Password</label>
-                                    <input type="password" autocomplete="off" th:field="*{password}" class="form-control" id="password">
+                                    <input type="password" autocomplete="off" th:field="*{password}" class="form-control" id="password" th:errorclass="'form-control is-invalid'">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('password')}">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('password')}" th:text="${err}"></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-8">
+                                <div class="form-group col-md-8" th:object="${user}">
                                     <label for="name" class="col-form-label">Name</label>
-                                    <input type="text" autocomplete="off" th:field="*{name}" class="form-control" id="name">
+                                    <input type="text" autocomplete="off" th:field="*{name}" class="form-control" id="name" th:errorclass="'form-control is-invalid'">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li>
+                                        </ul>
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-8">
+                                <div class="form-group col-md-8" th:object="${user}">
                                     <label for="email" class="col-form-label">Email</label>
-                                    <input type="text" autocomplete="off" th:field="*{email}" class="form-control" id="email">
+                                    <input type="text" autocomplete="off" th:field="*{email}" class="form-control" id="email" th:errorclass="'form-control is-invalid'">
+                                    <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}">
+                                        <ul>
+                                            <li th:each="err : ${#fields.errors('email')}" th:text="${err}"></li>
+                                        </ul>
+                                    </div>
                                 </div>
                                 <p></p>
                                 <p1>Sports that I like:</p1>
@@ -96,7 +116,7 @@
                                 <div class="col-md-6">
                                     <p></p>
                                     <input type="submit" href="register" class="btn btn-primary" value="Register"></input>
-                                    <a type="button" href="index" class="btn btn-secondary" value="Back to login">Back to login</a>
+                                    <a type="button" href="index" class="btn btn-secondary" value="Back to loginAccess">Back to loginAccess</a>
 
                                 </div>
                             </div>
@@ -108,6 +128,7 @@
                                     <p5 th:text="${account.getMessage()}">Error creating account.</p5>
                                 </div>
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>

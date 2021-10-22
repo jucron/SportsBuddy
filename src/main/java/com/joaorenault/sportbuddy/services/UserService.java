@@ -9,4 +9,6 @@ public interface UserService {
     User findUserById(Long l);
     User saveUser(User user);
     void deleteUserById(Long idToDelete);
+
+//    User findUserByLogin(LoginAccess login);
 }

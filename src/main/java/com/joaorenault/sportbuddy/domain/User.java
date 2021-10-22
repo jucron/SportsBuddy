@@ -1,8 +1,7 @@
 package com.joaorenault.sportbuddy.domain;
 
-import com.sun.istack.NotNull;
-
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,23 +9,17 @@ import java.util.List;
 @Entity
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @NotBlank(message = "Username is mandatory")
-    private String username;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+    private LoginAccess login;
 
-    @NotNull
-    @NotBlank(message = "Password is mandatory")
-    private String password;
-
-    @NotNull
     @NotBlank(message = "Name is mandatory")
     private String name;
 
-    @NotNull
     @NotBlank(message = "Email is mandatory")
+    @Email(message = "Use a valid email format")
     private String email;
 
     @ManyToMany
@@ -35,12 +28,18 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String username, String password, String name, String email) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
+    public User(LoginAccess login, String name, String email) {
+        this.login = login;
         this.name = name;
         this.email = email;
+    }
+
+    public LoginAccess getLogin() {
+        return this.login;
+    }
+
+    public void setLogin(LoginAccess login) {
+        this.login = login;
     }
 
     public Long getId() {
@@ -51,21 +50,21 @@ public class User {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+//    public String getUsername() {
+//        return username;
+//    }
+//
+//    public void setUsername(String username) {
+//        this.username = username;
+//    }
+//
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 
     public String getName() {
         return name;

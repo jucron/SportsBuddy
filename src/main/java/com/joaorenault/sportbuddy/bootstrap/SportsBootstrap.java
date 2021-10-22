@@ -1,7 +1,9 @@
 package com.joaorenault.sportbuddy.bootstrap;
 
+import com.joaorenault.sportbuddy.domain.LoginAccess;
 import com.joaorenault.sportbuddy.domain.Match;
 import com.joaorenault.sportbuddy.domain.User;
+import com.joaorenault.sportbuddy.repositories.LoginRepository;
 import com.joaorenault.sportbuddy.repositories.MatchRepository;
 import com.joaorenault.sportbuddy.repositories.UserRepository;
 import com.joaorenault.sportbuddy.services.SportsService;
@@ -15,11 +17,13 @@ import javax.transaction.Transactional;
 public class SportsBootstrap implements ApplicationListener<ContextRefreshedEvent> {
     private final MatchRepository matchRepository;
     private final UserRepository userRepository;
+    private final LoginRepository loginRepository;
     private final SportsService sportsService = new SportsService();
 
-    public SportsBootstrap(MatchRepository matchRepository, UserRepository userRepository) {
+    public SportsBootstrap(MatchRepository matchRepository, UserRepository userRepository, LoginRepository loginRepository) {
         this.matchRepository = matchRepository;
         this.userRepository = userRepository;
+        this.loginRepository = loginRepository;
     }
 
     @Override
@@ -27,36 +31,51 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
         // Adding users:
-        User john = new User(1L,"john","examplePass",
-                "John Master","john@email.com");
+        LoginAccess johnLogin = new LoginAccess("john","examplePass");
+        loginRepository.save(johnLogin);
+        User john = new User(johnLogin,"John Master","john@email.com");
+        johnLogin.setUser(john);
+        loginRepository.save(johnLogin);
         userRepository.save(john);
-        User larry = new User(2L,"larry","examplePass",
-                "Larry Sting","larry1@email.com");
+
+        LoginAccess larryLogin = new LoginAccess("larry","examplePass");
+        loginRepository.save(larryLogin);
+        User larry = new User(larryLogin,"Larry Sting","larry1@email.com");
+        larryLogin.setUser(larry);
+        loginRepository.save(larryLogin);
         userRepository.save(larry);
-        User larissa = new User(3L,"larry","examplePass",
-                "Larissa Hearth","larrissa@email.com");
+
+        LoginAccess larissaLogin = new LoginAccess("larissa","examplePass");
+        loginRepository.save(larissaLogin);
+        User larissa = new User(larissaLogin,"Larissa Hearth","larrissa@email.com");
+        larissaLogin.setUser(larissa);
+        loginRepository.save(larissaLogin);
         userRepository.save(larissa);
-        User bruna = new User(4L,"bruna","examplePass",
-                "Bruna Lulu","bruna@email.com");
+
+        LoginAccess brunaLogin = new LoginAccess("bruna","examplePass");
+        loginRepository.save(brunaLogin);
+        User bruna = new User(brunaLogin,"Bruna Lulu","bruna@email.com");
+        brunaLogin.setUser(bruna);
+        loginRepository.save(brunaLogin);
         userRepository.save(bruna);
 
         //Adding matches and relating users:
-        createMatch("3 on 3", "20/11/21","16hrs","Plaza sports center","Bring all friends!",
+        Match match1 = createMatch("3 on 3", "20/11/21","16hrs","Plaza sports center","Bring all friends!",
                 john, 2);
-        createMatch("Soccer relax", "12/11/21","10hrs","Main field","I have ball already",
+        Match match2 = createMatch("Soccer relax", "12/11/21","10hrs","Main field","I have ball already",
                 larry, 1);
-        createMatch("Tennis with friends", "13/11/21","15hrs","Tennis club","Everyone is welcome!",
+        Match match3 = createMatch("Tennis with friends", "13/11/21","15hrs","Tennis club","Everyone is welcome!",
                 larissa,4);
-        createMatch("Beach Volleyball!", "25/11/21", "11hrs","Long Beach", "We're starting when 4 is already there",
+        Match match4 = createMatch("Beach Volleyball!", "25/11/21", "11hrs","Long Beach", "We're starting when 4 is already there",
                 bruna,3);
         // Making people participate:
-        participateMatch(1L, 6L);
-        participateMatch(2L, 7L);
-        participateMatch(4L, 7L);
+        participateMatch(john.getId(), match1.getId());
+        participateMatch(larry.getId(), match2.getId());
+        participateMatch(bruna.getId(), match2.getId());
 
     }
 
-    private void createMatch (String name, String date, String hour,String location, String details,User user, int sport) {
+    private Match createMatch (String name, String date, String hour,String location, String details,User user, int sport) {
         Match match = new Match();
         match.setName(name);
         match.setDate(date);
@@ -71,6 +90,7 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
         matchRepository.save(match);
         user.getParticipatingMatches().add(match);
         userRepository.save(user);
+        return match;
     }
 
     private void participateMatch(Long userId,Long matchId) {

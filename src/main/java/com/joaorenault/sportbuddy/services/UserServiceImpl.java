@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     public User findUserById(Long l) {
         Optional<User> userOptional = userRepository.findById(l);
 
-        if (!userOptional.isPresent()) {
+        if (userOptional.isEmpty()) {
             throw new RuntimeException("User not found");
         }
 
@@ -44,4 +44,17 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(Long idToDelete) {
         userRepository.deleteById(idToDelete);
     }
+
+//    @Override
+//    public User findUserByLogin(LoginAccess login) {
+//        Iterable<User> users = userRepository.findAll();
+//        for (User user : users) {
+//            if (user.getLogin() == login) {
+//                return user;
+//            }
+//        }
+//        //User not found with that login
+//        //todo: throw exception
+//        return null;
+//    }
 }
