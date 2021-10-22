@@ -18,9 +18,11 @@ public class Match {
     @ManyToMany
     private List<User> usersAttending = new ArrayList<>();
 
+    //    @Min(value = 9,message = "Complete the Date")
     @NotBlank(message = "Date is mandatory")
     private String date;
 
+    //    @Min(value = 4,message = "Complete the Hour")
     @NotBlank(message = "Hour is mandatory")
     private String hour;
 

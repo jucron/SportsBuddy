@@ -58,24 +58,39 @@
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label for="name" class="col-form-label">Name of match</label>
-                                <input type="text" autocomplete="off" th:field="*{name}" class="form-control" id="name" placeholder="Brief description">
+                                <input type="text" autocomplete="off" th:field="*{name}" class="form-control" id="name" placeholder="Brief description" th:errorclass="'form-control is-invalid'">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}">
+                                    <ul><li th:each="err : ${#fields.errors('name')}" th:text="${err}"></li></ul>
+                                </div>
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="location" class="col-form-label">Location</label>
-                                <input type="text" autocomplete="off" th:field="*{location}" class="form-control" id="location" placeholder="Where it will be?">
+                                <input type="text" autocomplete="off" th:field="*{location}" class="form-control" id="location" placeholder="Where it will be?" th:errorclass="'form-control is-invalid'">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('location')}">
+                                    <ul><li th:each="err : ${#fields.errors('location')}" th:text="${err}"></li></ul>
+                                </div>
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="date" class="col-form-label">Date</label>
-                                <input type="text" autocomplete="off" th:field="*{date}" class="form-control" id="date" placeholder="d / m / y">
+                                <input type="date" autocomplete="off" th:field="*{date}" class="form-control" id="date" placeholder="d / m / y" th:errorclass="'form-control is-invalid'">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('date')}">
+                                    <ul><li th:each="err : ${#fields.errors('date')}" th:text="${err}"></li></ul>
+                                </div>
                             </div>
                             <div class="form-group col-md-12">
                                 <label for="hour" class="col-form-label">Hour</label>
-                                <input type="text" autocomplete="off" th:field="*{hour}" class="form-control" id="hour" placeholder="24hrs format">
+                                <input type="time" autocomplete="off" th:field="*{hour}" class="form-control" id="hour" placeholder="24hrs format" th:errorclass="'form-control is-invalid'">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('hour')}">
+                                    <ul><li th:each="err : ${#fields.errors('hour')}" th:text="${err}"></li></ul>
+                                </div>
                             </div>
                         </div>
                         <div class="form-group col-md-12">
                             <label for="details" class="col-form-label">Details</label>
-                            <input type="text" autocomplete="off" th:field="*{details}" class="form-control" id="details" placeholder="Any notes about this event?">
+                            <input type="text" autocomplete="off" th:field="*{details}" class="form-control" id="details" placeholder="Any notes about this event?" th:errorclass="'form-control is-invalid'">
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('details')}">
+                                <ul><li th:each="err : ${#fields.errors('details')}" th:text="${err}"></li></ul>
+                            </div>
                         </div>
                         <p></p>
                         <div class="form-row align-items-center">

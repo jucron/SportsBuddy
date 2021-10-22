@@ -60,13 +60,13 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
         userRepository.save(bruna);
 
         //Adding matches and relating users:
-        Match match1 = createMatch("3 on 3", "20/11/21","16hrs","Plaza sports center","Bring all friends!",
+        Match match1 = createMatch("3 on 3", "2021-11-21","16:00","Plaza sports center","Bring all friends!",
                 john, 2);
-        Match match2 = createMatch("Soccer relax", "12/11/21","10hrs","Main field","I have ball already",
+        Match match2 = createMatch("Soccer relax", "2021-11-10","10:00","Main field","I have ball already",
                 larry, 1);
-        Match match3 = createMatch("Tennis with friends", "13/11/21","15hrs","Tennis club","Everyone is welcome!",
+        Match match3 = createMatch("Tennis with friends", "2021-11-13","15:00","Tennis club","Everyone is welcome!",
                 larissa,4);
-        Match match4 = createMatch("Beach Volleyball!", "25/11/21", "11hrs","Long Beach", "We're starting when 4 is already there",
+        Match match4 = createMatch("Beach Volleyball!", "2021-11-25", "11:00","Long Beach", "We're starting when 4 is already there",
                 bruna,3);
         // Making people participate:
         participateMatch(john.getId(), match1.getId());

@@ -5,11 +5,13 @@ import com.joaorenault.sportbuddy.domain.User;
 import com.joaorenault.sportbuddy.services.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Objects;
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/matches/")
@@ -43,14 +45,15 @@ public class MatchesController {
         return "matches/match_creation";
     }
     @GetMapping("create_match")
-    public String createMatch (Match match) {
-
+    public String createMatch (@Valid @ModelAttribute("match") Match match,
+                               BindingResult result, Model model) {
         //validate creation of match
-        if (Objects.equals(match.getName(), "") ||
-                Objects.equals(match.getDate(), "") ||
-                Objects.equals(match.getHour(), "") ||
-                Objects.equals(match.getDetails(), "")) { //Validating form entry requirements (not blank)
-            return "redirect:match_bad_create";
+        if (result.hasErrors()) { //Validating form entry requirements
+            User mainUser = userService.findUserById(sessionService.getSessionUserID());
+            model.addAttribute("mainUser", mainUser);
+            model.addAttribute("matchCreation", new FeedbackService(
+                    true,1,"Please correct all errors."));
+            return "matches/match_creation";
         }
         // Associating fields not completed and saving in repository
         Long userID = sessionService.getSessionUserID();
