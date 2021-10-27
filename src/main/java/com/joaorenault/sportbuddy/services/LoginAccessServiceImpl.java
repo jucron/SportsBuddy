@@ -71,7 +71,7 @@ public class LoginAccessServiceImpl implements LoginAccessService {
         Set<LoginAccess> logins = new HashSet<>();
         loginRepository.findAll().iterator().forEachRemaining(logins::add);
         for (LoginAccess loginCheck : logins) {
-            if (Objects.equals(loginCheck.getUsername(), login.getUsername()) ||
+            if (Objects.equals(loginCheck.getUsername(), login.getUsername()) &&
                     Objects.equals(loginCheck.getPassword(), login.getPassword())) {
                 return loginCheck.getUser().getId();
             }
