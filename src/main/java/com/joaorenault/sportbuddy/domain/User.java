@@ -12,7 +12,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne(cascade = CascadeType.REMOVE, mappedBy = "user") //deleting should be cascaded
     private LoginAccess login;
 
     @NotBlank(message = "Name is mandatory")

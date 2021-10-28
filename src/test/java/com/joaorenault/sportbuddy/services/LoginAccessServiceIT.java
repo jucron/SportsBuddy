@@ -33,18 +33,24 @@ class LoginAccessServiceIT {
     void saveLogin() {
         //Creating data:
         LoginAccess lucasLogin = new LoginAccess("lucas","examplePass");
+        User lucas = new User(lucasLogin,"Lucas Master","lucas@email.com");
 
         //testing method
-        LoginAccess savedLogin = loginAccessService.saveLogin(lucasLogin);
+        loginAccessService.saveLogin(lucasLogin); //Persisting and creating a unique ID
+        userRepository.save(lucas); //Persisting and creating a unique ID
+        lucasLogin.setUser(lucas);
+        LoginAccess savedLogin = loginAccessService.saveLogin(lucasLogin); //Persisting with the correct user
+
+        //Asserting results:
         Set<LoginAccess> logins = new HashSet<>();
         loginRepository.findAll().iterator().forEachRemaining(logins::add);
 
-        //Asserting results:
         assertNotNull(savedLogin);
         assertEquals("lucas",savedLogin.getUsername());
         assertEquals("examplePass",savedLogin.getPassword());
         assertEquals((4+1),logins.size()); //Bootstrap have already 4 logins
         assertTrue(logins.iterator().hasNext());
+
     }
 
     @Test
@@ -61,12 +67,11 @@ class LoginAccessServiceIT {
 
         //testing method
         loginAccessService.deleteLoginByUser(bianca);
+
+        //Asserting results:
         Set<LoginAccess> logins = new HashSet<>();
         loginRepository.findAll().iterator().forEachRemaining(logins::add);
-        for (LoginAccess login : logins) {
-            System.out.println(login.getUsername());
-        }
-        //Asserting results:
+
         assertNotNull(logins);
         assertEquals((6-1),logins.size()); //Bootstrap (4) + saveLogin (1) + newUser (1)
         assertFalse(logins.contains(biancaLogin));

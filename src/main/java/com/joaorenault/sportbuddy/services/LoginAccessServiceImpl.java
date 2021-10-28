@@ -48,6 +48,7 @@ public class LoginAccessServiceImpl implements LoginAccessService {
         for (LoginAccess login :logins) {
             if (Objects.equals(login.getUser().getId(), userToDelete.getId())) {
                 loginRepository.deleteById(login.getId());
+                return;
             }
         }
         //User not found:
