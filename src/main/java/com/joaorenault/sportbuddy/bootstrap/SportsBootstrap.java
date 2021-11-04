@@ -3,10 +3,10 @@ package com.joaorenault.sportbuddy.bootstrap;
 import com.joaorenault.sportbuddy.domain.LoginAccess;
 import com.joaorenault.sportbuddy.domain.Match;
 import com.joaorenault.sportbuddy.domain.User;
+import com.joaorenault.sportbuddy.helper.SportsChoice;
 import com.joaorenault.sportbuddy.repositories.LoginRepository;
 import com.joaorenault.sportbuddy.repositories.MatchRepository;
 import com.joaorenault.sportbuddy.repositories.UserRepository;
-import com.joaorenault.sportbuddy.services.SportsService;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -18,7 +18,7 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
     private final MatchRepository matchRepository;
     private final UserRepository userRepository;
     private final LoginRepository loginRepository;
-    private final SportsService sportsService = new SportsService();
+    private final SportsChoice sportsService = new SportsChoice();
 
     public SportsBootstrap(MatchRepository matchRepository, UserRepository userRepository, LoginRepository loginRepository) {
         this.matchRepository = matchRepository;

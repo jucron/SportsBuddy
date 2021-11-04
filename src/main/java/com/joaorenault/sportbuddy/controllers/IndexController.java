@@ -2,7 +2,11 @@ package com.joaorenault.sportbuddy.controllers;
 
 import com.joaorenault.sportbuddy.domain.LoginAccess;
 import com.joaorenault.sportbuddy.domain.User;
-import com.joaorenault.sportbuddy.services.*;
+import com.joaorenault.sportbuddy.helper.FeedbackMessage;
+import com.joaorenault.sportbuddy.services.HashService;
+import com.joaorenault.sportbuddy.services.LoginAccessService;
+import com.joaorenault.sportbuddy.services.SessionService;
+import com.joaorenault.sportbuddy.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,20 +24,24 @@ public class IndexController {
 
     private final UserService userService;
     private final LoginAccessService loginAccessService;
+    private final HashService hashService;
+    private final SessionService sessionService;
+//    private SessionService sessionService = new SessionService(null);
 
-    private HashService hashService = new HashService();
-    private SessionService sessionService = new SessionService(null);
 
-    public IndexController(UserService userService, LoginAccessService loginAccessService) {
+    public IndexController(UserService userService, LoginAccessService loginAccessService,
+                           HashService hashService, SessionService sessionService) {
         this.userService = userService;
         this.loginAccessService = loginAccessService;
+        this.hashService = hashService;
+        this.sessionService = sessionService;
     }
 
     //Standard index
     @GetMapping({"","/","index"})
     public String startupPage (Model model) {
         model.addAttribute("login", new LoginAccess());
-        model.addAttribute("account", new FeedbackService(false));
+        model.addAttribute("account", new FeedbackMessage(false));
         if (sessionService.getSessionUserID()!=null){
             return "matches/matches";
         }
@@ -48,7 +56,7 @@ public class IndexController {
     @GetMapping({"index_badlogin"})
     public String startupPageBadLogin (Model model) {
         model.addAttribute("login", new LoginAccess());
-        model.addAttribute("account", new FeedbackService(
+        model.addAttribute("account", new FeedbackMessage(
                 true,1,"Username and password does not match or do not exist."));
         return "index";
     }
@@ -56,7 +64,7 @@ public class IndexController {
     @GetMapping({"index_GoodRegister"})
     public String startupPageBadPass (Model model) {
         model.addAttribute("login", new LoginAccess());
-        model.addAttribute("account", new FeedbackService(
+        model.addAttribute("account", new FeedbackMessage(
                 true,2,"Account successful created!"));
         return "index";
     }
@@ -65,7 +73,7 @@ public class IndexController {
     public String register (Model model) {
         model.addAttribute("user", new User());
         model.addAttribute("login", new LoginAccess());
-        model.addAttribute("account", new FeedbackService(false));
+        model.addAttribute("account", new FeedbackMessage(false));
         return "register";
     }
 
@@ -74,7 +82,7 @@ public class IndexController {
     public String addUser (@Valid @ModelAttribute("user") User user, BindingResult resultUser, @Valid @ModelAttribute("login") LoginAccess login,
                            BindingResult resultLogin, Model model) throws NoSuchAlgorithmException {
         if (resultUser.hasErrors() || resultLogin.hasErrors()) {
-                model.addAttribute("account", new FeedbackService(
+                model.addAttribute("account", new FeedbackMessage(
                         true,1,"Please correct errors."));
                 resultLogin.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
                 resultUser.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
@@ -83,7 +91,7 @@ public class IndexController {
         //Checking username already registered
         if (loginAccessService.checkExistentUsername(login)) {
             //username already exists
-            model.addAttribute("account", new FeedbackService(
+            model.addAttribute("account", new FeedbackMessage(
                     true,1,"Username is already taken."));
             log.debug("Username already taken");
             return "register";

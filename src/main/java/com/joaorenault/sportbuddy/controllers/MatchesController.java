@@ -2,7 +2,11 @@ package com.joaorenault.sportbuddy.controllers;
 
 import com.joaorenault.sportbuddy.domain.Match;
 import com.joaorenault.sportbuddy.domain.User;
-import com.joaorenault.sportbuddy.services.*;
+import com.joaorenault.sportbuddy.helper.FeedbackMessage;
+import com.joaorenault.sportbuddy.helper.SportsChoice;
+import com.joaorenault.sportbuddy.services.MatchService;
+import com.joaorenault.sportbuddy.services.SessionService;
+import com.joaorenault.sportbuddy.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,14 +21,16 @@ import javax.validation.Valid;
 @RequestMapping("/matches/")
 public class MatchesController {
 
-    private SessionService sessionService = new SessionService();
-    private SportsService sportsService = new SportsService();
+    private SessionService sessionService;
+    private SportsChoice sportsService = new SportsChoice();
     private final MatchService matchService;
     private final UserService userService;
 
-    public MatchesController(MatchService matchService, UserService userService) {
+    public MatchesController(MatchService matchService, UserService userService,
+                             SessionService sessionService) {
         this.matchService = matchService;
         this.userService = userService;
+        this.sessionService = sessionService;
     }
 
     @GetMapping({"matches","match_delete/matches","match_leave/matches","match_participate/matches"})
@@ -41,7 +47,7 @@ public class MatchesController {
 
         model.addAttribute("mainUser", mainUser);
         model.addAttribute("match", new Match());
-        model.addAttribute("matchCreation", new FeedbackService(false));
+        model.addAttribute("matchCreation", new FeedbackMessage(false));
         return "matches/match_creation";
     }
     @GetMapping("create_match")
@@ -51,7 +57,7 @@ public class MatchesController {
         if (result.hasErrors()) { //Validating form entry requirements
             User mainUser = userService.findUserById(sessionService.getSessionUserID());
             model.addAttribute("mainUser", mainUser);
-            model.addAttribute("matchCreation", new FeedbackService(
+            model.addAttribute("matchCreation", new FeedbackMessage(
                     true,1,"Please correct all errors."));
             return "matches/match_creation";
         }
@@ -77,7 +83,7 @@ public class MatchesController {
 
         model.addAttribute("mainUser", mainUser);
         model.addAttribute("match", new Match());
-        model.addAttribute("matchCreation", new FeedbackService(
+        model.addAttribute("matchCreation", new FeedbackMessage(
                 true,1,"Must complete all the fields."));
         return "matches/match_creation";
     }

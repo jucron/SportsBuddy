@@ -1,15 +1,15 @@
-package com.joaorenault.sportbuddy.services;
+package com.joaorenault.sportbuddy.helper;
 
-public class FeedbackService {
+public class FeedbackMessage {
     boolean feedback;
     int position;
     String message;
 
-    public FeedbackService(boolean feedback) {
+    public FeedbackMessage(boolean feedback) {
     this.feedback = feedback;
     }
 
-    public FeedbackService(boolean feedback, int position, String message) {
+    public FeedbackMessage(boolean feedback, int position, String message) {
         this.feedback = feedback;
         this.position = position;
         this.message = message;
