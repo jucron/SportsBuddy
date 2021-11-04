@@ -9,10 +9,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 class HashServiceTest {
+
     HashService hashService;
 
     @BeforeEach
     void setUp() {
+
         hashService = new HashServiceImpl();
     }
 

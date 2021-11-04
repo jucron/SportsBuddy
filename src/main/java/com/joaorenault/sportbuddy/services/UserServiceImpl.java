@@ -45,16 +45,4 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(idToDelete);
     }
 
-//    @Override
-//    public User findUserByLogin(LoginAccess login) {
-//        Iterable<User> users = userRepository.findAll();
-//        for (User user : users) {
-//            if (user.getLogin() == login) {
-//                return user;
-//            }
-//        }
-//        //User not found with that login
-//        //todo: throw exception
-//        return null;
-//    }
 }
