@@ -1,4 +1,5 @@
-# SportsBuddy
+# SportsBuddy 
+[![CircleCI](https://circleci.com/gh/jucron/SportsBuddy/tree/master.svg?style=svg)](https://circleci.com/gh/jucron/SportsBuddy/tree/master)
 #### Video Demo:  [Youtube video link](https://youtu.be/hkMPWurAIa8)
 #### Description:
 This app was created as the Final Project of *[CS50's Introduction to Computer Science](https://online-learning.harvard.edu/course/cs50-introduction-computer-science)*.
