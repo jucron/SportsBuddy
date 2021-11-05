@@ -17,7 +17,8 @@ import static org.mockito.Mockito.*;
 
 class UserServiceImplTest {
 
-    UserServiceImpl userService;
+    UserService userService;
+
     @Mock
     UserRepository userRepository;
 
