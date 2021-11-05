@@ -1,6 +1,6 @@
-package com.joaorenault.sportbuddy.services;
+package com.joaorenault.sportbuddy.helper;
 
-public class SportsService {
+public class SportsChoice {
 
     private int SOCCER;
     private int BASKETBALL;
@@ -9,7 +9,7 @@ public class SportsService {
     private int TABLE_TENNIS;
     private int BASEBALL;
 
-    public SportsService() {
+    public SportsChoice() {
         this.SOCCER = 1;
         this.BASKETBALL = 2;
         this.VOLLEYBALL = 3;
