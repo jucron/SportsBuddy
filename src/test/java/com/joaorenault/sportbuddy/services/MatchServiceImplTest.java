@@ -33,23 +33,6 @@ class MatchServiceImplTest {
         matchService = new MatchServiceImpl(matchRepository);
         sportsService = new SportsChoice();
     }
-    private Match createMatch (String name, String date, String hour, String location, String details, User user, int sport) {
-        Match match = new Match();
-        match.setName(name);
-        match.setDate(date);
-        match.setHour(hour);
-        match.setLocation(location);
-        match.setDetails(details);
-        match.setOwnerID(user.getId());
-        match.setNumberOfParticipants(1);
-        match.getUsersAttending().add(user);
-        match.setOwnerName(user.getName());
-        match.setSportName(sportsService.sportSelected(sport));
-//        matchRepository.save(match);
-        user.getParticipatingMatches().add(match);
-//        userRepository.save(user);
-        return match;
-    }
 
     @Test
     void getMatches() {
@@ -105,5 +88,21 @@ class MatchServiceImplTest {
         //asserting
         assertEquals("Match not found", exception.getMessage());
 
+    }
+    //helper class:
+    private Match createMatch (String name, String date, String hour, String location, String details, User user, int sport) {
+        Match match = new Match();
+        match.setName(name);
+        match.setDate(date);
+        match.setHour(hour);
+        match.setLocation(location);
+        match.setDetails(details);
+        match.setOwnerID(user.getId());
+        match.setNumberOfParticipants(1);
+        match.getUsersAttending().add(user);
+        match.setOwnerName(user.getName());
+        match.setSportName(sportsService.sportSelected(sport));
+        user.getParticipatingMatches().add(match);
+        return match;
     }
 }

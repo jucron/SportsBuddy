@@ -38,6 +38,7 @@ class UserServiceIT {
         //Creating data:
         LoginAccess lucasLogin = new LoginAccess("lucas","examplePass");
         User lucas = new User(lucasLogin,"Lucas Master","lucas@email.com");
+        long userRepositorySizeBefore = userRepository.count();
 
         //testing method:
         loginRepository.save(lucasLogin); //Persisting and creating a unique ID
@@ -52,6 +53,7 @@ class UserServiceIT {
         assertNotNull(userSaved);
         assertEquals("Lucas Master",userSaved.getName());
         assertEquals("lucas@email.com",userSaved.getEmail());
+        assertNotEquals(userRepositorySizeBefore,users.size());
         assertEquals((4+1),users.size()); //Bootstrap (4) + newUser (1)
         assertTrue(users.iterator().hasNext());
     }
@@ -68,6 +70,8 @@ class UserServiceIT {
         biancaLogin.setUser(bianca);
         loginRepository.save(biancaLogin);
         userRepository.save(bianca);
+        long userRepositorySizeBefore = userRepository.count();
+
 
         //testing
         userService.deleteUserById(bianca.getId());
@@ -77,6 +81,7 @@ class UserServiceIT {
         userRepository.findAll().iterator().forEachRemaining(users::add);
 
         assertNotNull(users);
+        assertNotEquals(userRepositorySizeBefore,users.size());
         assertEquals((4+1-1),users.size()); //Bootstrap (4) + newUser (1) - newUser (1)
         assertFalse(users.contains(bianca));
     }
