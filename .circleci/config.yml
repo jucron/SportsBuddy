@@ -17,6 +17,8 @@ jobs:
     working_directory: ~/repo
 
     environment:
+        global:
+          - CODECOV_TOKEN='487e0890-3f32-4c93-aa48-7613d2c28279'
       # Customize the JVM maximum heap limit
       MAVEN_OPTS: -Xmx3200m
 
@@ -42,10 +44,6 @@ jobs:
 
       - store_test_results:
           path: target/surefire-reports
-
-      env:
-        global:
-          - CODECOV_TOKEN='487e0890-3f32-4c93-aa48-7613d2c28279'
 
       - run:
           name: Send to CodeCov
