@@ -41,8 +41,11 @@ jobs:
       - run: mvn integration-test
 
       - store_test_results:
-#          path: target/surefire-reports
-          path: target/site/jacoco
+          path: target/surefire-reports
+
+      env:
+        global:
+          - CODECOV_TOKEN='487e0890-3f32-4c93-aa48-7613d2c28279'
 
       - run:
           name: Send to CodeCov
