@@ -26,8 +26,6 @@ public class IndexController {
     private final LoginAccessService loginAccessService;
     private final HashService hashService;
     private final SessionService sessionService;
-//    private SessionService sessionService = new SessionService(null);
-
 
     public IndexController(UserService userService, LoginAccessService loginAccessService,
                            HashService hashService, SessionService sessionService) {
