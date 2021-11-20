@@ -60,7 +60,7 @@ public class IndexController {
     }
     //Good registration Index
     @GetMapping({"index_GoodRegister"})
-    public String startupPageBadPass (Model model) {
+    public String startupPageGoodLogin(Model model) {
         model.addAttribute("login", new LoginAccess());
         model.addAttribute("account", new FeedbackMessage(
                 true,2,"Account successful created!"));
@@ -72,7 +72,7 @@ public class IndexController {
         model.addAttribute("user", new User());
         model.addAttribute("login", new LoginAccess());
         model.addAttribute("account", new FeedbackMessage(false));
-        return "register";
+        return "registerForm";
     }
 
     // Process register input
@@ -84,7 +84,7 @@ public class IndexController {
                         true,1,"Please correct errors."));
                 resultLogin.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
                 resultUser.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
-            return "register";
+            return "registerForm";
         }
         //Checking username already registered
         if (loginAccessService.checkExistentUsername(login)) {
@@ -92,7 +92,7 @@ public class IndexController {
             model.addAttribute("account", new FeedbackMessage(
                     true,1,"Username is already taken."));
             log.debug("Username already taken");
-            return "register";
+            return "registerForm";
         }
         //if not existent, proceeds to persist data
         login.setPassword(hashService.hashPass(login.getPassword()));
