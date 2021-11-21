@@ -1,5 +1,6 @@
 package com.joaorenault.sportbuddy.services;
 
+import com.joaorenault.sportbuddy.domain.Match;
 import com.joaorenault.sportbuddy.domain.User;
 import com.joaorenault.sportbuddy.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(Long idToDelete) {
         userRepository.deleteById(idToDelete);
+    }
+
+    @Override
+    public void removeAllParticipantsOfAMatch(Match match) {
+        TreeSet<User> users = getUsers();
+        for (User user : users) {
+            user.getParticipatingMatches().remove(match);
+        }
     }
 
 }

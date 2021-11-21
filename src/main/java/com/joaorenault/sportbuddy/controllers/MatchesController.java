@@ -117,7 +117,7 @@ public class MatchesController {
     public String matchDelete (@PathVariable("id") long id) {
         User mainUser = userService.findUserById(sessionService.getSessionUserID());
         Match match = matchService.findMatchById(id);
-        mainUser.getParticipatingMatches().remove(match);
+        userService.removeAllParticipantsOfAMatch(match);
         matchService.deleteMatchById(match.getId());
         userService.saveUser(mainUser);
         return "redirect:matches";

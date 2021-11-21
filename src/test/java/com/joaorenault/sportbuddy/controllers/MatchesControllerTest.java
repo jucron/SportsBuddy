@@ -19,6 +19,7 @@ import org.springframework.ui.Model;
 
 import java.util.TreeSet;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -159,13 +160,79 @@ class MatchesControllerTest {
 
     @Test
     void matchParticipate() {
+        //data
+        User user = new User();
+        Match match = new Match();
+        user.setId(1L); match.setId(2L);
+        match.setNumberOfParticipants(3); //Assuming 3 participants
+
+        when(sessionService.getSessionUserID()).thenReturn(user.getId());
+        when(userService.findUserById(1L)).thenReturn(user);
+        when(matchService.findMatchById(2L)).thenReturn(match);
+
+        //testing
+        String viewName = matchesController.matchParticipate(match.getId());
+
+        //assertions
+        Assertions.assertEquals("redirect:matches", viewName);
+        Assertions.assertEquals(4,match.getNumberOfParticipants());
+        Assertions.assertEquals(user,match.getUsersAttending().get(0));
+        Assertions.assertEquals(match,user.getParticipatingMatches().get(0));
+        verify(userService,times(1)).saveUser(user);
+        verify(matchService,times(1)).saveMatch(match);
+
     }
 
     @Test
     void matchLeave() {
+        //data
+        User user = new User();
+        Match match = new Match();
+        user.setId(1L); match.setId(2L);
+        match.setNumberOfParticipants(3); //Assuming 3 participants
+        match.getUsersAttending().add(user);
+        user.getParticipatingMatches().add(match);
+
+        when(sessionService.getSessionUserID()).thenReturn(user.getId());
+        when(userService.findUserById(1L)).thenReturn(user);
+        when(matchService.findMatchById(2L)).thenReturn(match);
+
+        //testing
+        String viewName = matchesController.matchLeave(match.getId());
+
+        //assertions
+        Assertions.assertEquals("redirect:matches", viewName);
+        Assertions.assertEquals(2,match.getNumberOfParticipants());
+        assertFalse(match.getUsersAttending().contains(user));
+        assertFalse(user.getParticipatingMatches().contains(match));
+        verify(userService,times(1)).saveUser(user);
+        verify(matchService,times(1)).saveMatch(match);
+
+
     }
 
     @Test
     void matchDelete() {
+        //data
+        User user = new User();
+        Match match = new Match();
+        user.setId(1L); match.setId(2L);
+        match.setNumberOfParticipants(1);
+        match.getUsersAttending().add(user);
+        user.getParticipatingMatches().add(match);
+
+        when(sessionService.getSessionUserID()).thenReturn(user.getId());
+        when(userService.findUserById(1L)).thenReturn(user);
+        when(matchService.findMatchById(2L)).thenReturn(match);
+
+        //testing
+        String viewName = matchesController.matchDelete(match.getId());
+
+        //assertions
+        Assertions.assertEquals("redirect:matches", viewName);
+        verify(userService,times(1)).removeAllParticipantsOfAMatch(match);
+        verify(matchService,times(1)).deleteMatchById(match.getId());
+        verify(userService,times(1)).saveUser(user);
+
     }
 }

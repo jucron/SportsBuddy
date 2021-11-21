@@ -41,7 +41,7 @@ public class IndexController {
         model.addAttribute("login", new LoginAccess());
         model.addAttribute("account", new FeedbackMessage(false));
         if (sessionService.getSessionUserID()!=null){
-            return "matchesList";
+            return "redirect: matches/matches";
         }
         return "index";
     }

@@ -1,8 +1,10 @@
 package com.joaorenault.sportbuddy.services;
 
 import com.joaorenault.sportbuddy.domain.LoginAccess;
+import com.joaorenault.sportbuddy.domain.Match;
 import com.joaorenault.sportbuddy.domain.User;
 import com.joaorenault.sportbuddy.repositories.UserRepository;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -83,6 +85,33 @@ class UserServiceImplTest {
         });
         //asserting
         assertEquals("User not found", exception.getMessage());
+
+    }
+    @Test
+    void removeAllParticipants() {
+        User john = new User(new LoginAccess(),"John Master","john@email.com");
+        john.setId(1L);
+        User lucas = new User(new LoginAccess(),"Lucas Master","lucas@email.com");
+        lucas.setId(2L);
+        TreeSet<User> usersRepertory = new TreeSet<>(Comparator.comparingInt(o -> (o.getId().intValue())));
+        usersRepertory.add(john); usersRepertory.add(lucas); //repertory will have size of 2
+        //Creating match and making them participate
+        Match match = new Match(); match.setId(3L);
+        john.getParticipatingMatches().add(match); lucas.getParticipatingMatches().add(match);
+
+        //Mocking repository use:
+        when(userRepository.findAll()).thenReturn(usersRepertory);
+
+        //Assert simulations
+        Assertions.assertEquals(1,john.getParticipatingMatches().size());
+        Assertions.assertEquals(1,lucas.getParticipatingMatches().size());
+
+        //testing
+        userService.removeAllParticipantsOfAMatch(match);
+
+        //Assert testing method
+        Assertions.assertEquals(0,john.getParticipatingMatches().size());
+        Assertions.assertEquals(0,lucas.getParticipatingMatches().size());
 
     }
 }

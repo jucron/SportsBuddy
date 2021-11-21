@@ -62,8 +62,8 @@ class IndexControllerTest {
         when(sessionService.getSessionUserID()).thenReturn(1L); //Assuming access to index logged
 
         mockMvc.perform(get("/"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("matches/matches"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect: matches/matches"));
     }
 
     @Test
