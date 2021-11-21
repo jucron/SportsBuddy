@@ -35,11 +35,15 @@ public class MatchesController {
 
     @GetMapping({"matches","match_delete/matches","match_leave/matches","match_participate/matches"})
     public String matches (Model model) {
+        //Go back to index in case of not logged in
+        if (sessionService.getSessionUserID()==null) {
+            return "redirect:/index";
+        }
         User mainUser = userService.findUserById(sessionService.getSessionUserID());
         model.addAttribute("mainUser", mainUser);
         model.addAttribute("matches",matchService.getMatches());
 
-        return "matches/matches";
+        return "matches/matchesList";
     }
     @GetMapping("create_match_page")
     public String createMatchPage (Model model) {
