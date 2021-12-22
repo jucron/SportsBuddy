@@ -1,5 +1,6 @@
 package com.joaorenault.sportbuddy.services;
 
+import com.joaorenault.sportbuddy.domain.LoginAccess;
 import com.joaorenault.sportbuddy.domain.Match;
 import com.joaorenault.sportbuddy.domain.User;
 import com.joaorenault.sportbuddy.repositories.UserRepository;
@@ -16,6 +17,7 @@ public class UserServiceImpl implements UserService {
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
 
     @Override
     public TreeSet<User> getUsers() {
@@ -44,6 +46,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUserById(Long idToDelete) {
         userRepository.deleteById(idToDelete);
+    }
+
+    @Override
+    public User findUserByLogin(LoginAccess login) {
+        return userRepository.findUserByLogin(login);
     }
 
     @Override

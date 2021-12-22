@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +22,14 @@ class LoginAccessServiceImplTest {
 
     @Mock
     LoginRepository loginRepository;
+    @Mock
+    PasswordEncoder passwordEncoder;
 
     @BeforeEach
     void setUp() {
         //initialize Mocks
         MockitoAnnotations.initMocks(this); //deprecated
-        loginAccessService = new LoginAccessServiceImpl(loginRepository);
+        loginAccessService = new LoginAccessServiceImpl(loginRepository, passwordEncoder);
 
     }
 

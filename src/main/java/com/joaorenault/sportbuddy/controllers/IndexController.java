@@ -3,7 +3,6 @@ package com.joaorenault.sportbuddy.controllers;
 import com.joaorenault.sportbuddy.domain.LoginAccess;
 import com.joaorenault.sportbuddy.domain.User;
 import com.joaorenault.sportbuddy.helper.FeedbackMessage;
-import com.joaorenault.sportbuddy.services.HashService;
 import com.joaorenault.sportbuddy.services.LoginAccessService;
 import com.joaorenault.sportbuddy.services.SessionService;
 import com.joaorenault.sportbuddy.services.UserService;
@@ -24,38 +23,39 @@ public class IndexController {
 
     private final UserService userService;
     private final LoginAccessService loginAccessService;
-    private final HashService hashService;
     private final SessionService sessionService;
 
     public IndexController(UserService userService, LoginAccessService loginAccessService,
-                           HashService hashService, SessionService sessionService) {
+                           SessionService sessionService) {
         this.userService = userService;
         this.loginAccessService = loginAccessService;
-        this.hashService = hashService;
         this.sessionService = sessionService;
     }
 
     //Standard index
-    @GetMapping({"","/","index"})
+    @GetMapping({"","/"}) // "index"
     public String startupPage (Model model) {
+        log.info("index mapping accessed");
+        if (sessionService.getLoginOfCurrentSession()!=null) {
+            return "redirect:matches/matches";
+        }
         model.addAttribute("login", new LoginAccess());
         model.addAttribute("account", new FeedbackMessage(false));
-        if (sessionService.getSessionUserID()!=null){
-            return "redirect: matches/matches";
-        }
+
         return "index";
     }
-    @GetMapping({"logout"})
-    public String logout () {
-        sessionService.setSessionUserID(null);
-        return "redirect:index";
-    }
+//    @GetMapping({"logout"})
+//    public String logout () {
+//        sessionService.setSessionUserID(null);
+//        return "redirect:index";
+//    }
     //Bad Login index
     @GetMapping({"index_badlogin"})
     public String startupPageBadLogin (Model model) {
         model.addAttribute("login", new LoginAccess());
         model.addAttribute("account", new FeedbackMessage(
                 true,1,"Username and password does not match or do not exist."));
+        log.info("index_badlogin mapping accessed");
         return "index";
     }
     //Good registration Index
@@ -64,6 +64,7 @@ public class IndexController {
         model.addAttribute("login", new LoginAccess());
         model.addAttribute("account", new FeedbackMessage(
                 true,2,"Account successful created!"));
+        log.info("index_GoodRegister mapping accessed");
         return "index";
     }
     // Register page:
@@ -72,6 +73,7 @@ public class IndexController {
         model.addAttribute("user", new User());
         model.addAttribute("login", new LoginAccess());
         model.addAttribute("account", new FeedbackMessage(false));
+        log.info("register_page mapping accessed");
         return "registerForm";
     }
 
@@ -79,6 +81,7 @@ public class IndexController {
     @PostMapping("register")
     public String addUser (@Valid @ModelAttribute("user") User user, BindingResult resultUser, @Valid @ModelAttribute("login") LoginAccess login,
                            BindingResult resultLogin, Model model) throws NoSuchAlgorithmException {
+        log.info("register mapping accessed");
         if (resultUser.hasErrors() || resultLogin.hasErrors()) {
                 model.addAttribute("account", new FeedbackMessage(
                         true,1,"Please correct errors."));
@@ -95,32 +98,13 @@ public class IndexController {
             return "registerForm";
         }
         //if not existent, proceeds to persist data
-        login.setPassword(hashService.hashPass(login.getPassword()));
-        loginAccessService.saveLogin(login); //Login has ID now
+//        login.setPassword(hashService.hashPass(login.getPassword()));
+        login.setPassword(login.getPassword());
+        loginAccessService.encodePassAndSaveLogin(login); //Login has ID now
         user.setLogin(login);
         userService.saveUser(user); //User has ID now
         login.setUser(user);
         loginAccessService.saveLogin(login); //Persisting login with the user ID associated
         return "redirect:index_GoodRegister";
-    }
-    //Login validation
-    @PostMapping("login")
-    public String login (@Valid @ModelAttribute("login") LoginAccess login,
-                         BindingResult result) throws NoSuchAlgorithmException {
-        if (result.hasErrors()) { //Validating form entry requirements
-            return "redirect:index_badlogin";
-        }
-        login.setPassword(hashService.hashPass(login.getPassword()));
-
-        //Validating login
-        Long userID = loginAccessService.processLogin(login);
-        if (!(userID == null)) {
-            User user = userService.findUserById(userID);
-            sessionService.setSessionUserID(userID);
-            sessionService.setSessionUserName(user.getName());
-            return "redirect:matches/matches";
-        }
-        //If bad-login
-        return "redirect:index_badlogin";
     }
 }

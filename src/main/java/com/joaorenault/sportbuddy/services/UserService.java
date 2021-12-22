@@ -1,5 +1,6 @@
 package com.joaorenault.sportbuddy.services;
 
+import com.joaorenault.sportbuddy.domain.LoginAccess;
 import com.joaorenault.sportbuddy.domain.Match;
 import com.joaorenault.sportbuddy.domain.User;
 
@@ -10,7 +11,7 @@ public interface UserService {
     User findUserById(Long l);
     User saveUser(User user);
     void deleteUserById(Long idToDelete);
-
+    User findUserByLogin(LoginAccess login);
     void removeAllParticipantsOfAMatch(Match match);
 
 //    User findUserByLogin(LoginAccess login);

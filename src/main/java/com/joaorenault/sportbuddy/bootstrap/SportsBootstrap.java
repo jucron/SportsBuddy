@@ -9,6 +9,7 @@ import com.joaorenault.sportbuddy.repositories.MatchRepository;
 import com.joaorenault.sportbuddy.repositories.UserRepository;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
@@ -19,40 +20,43 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
     private final UserRepository userRepository;
     private final LoginRepository loginRepository;
     private final SportsChoice sportsService = new SportsChoice();
+    private final PasswordEncoder passwordEncoder;
 
-    public SportsBootstrap(MatchRepository matchRepository, UserRepository userRepository, LoginRepository loginRepository) {
+    public SportsBootstrap(MatchRepository matchRepository, UserRepository userRepository, LoginRepository loginRepository, PasswordEncoder passwordEncoder) {
         this.matchRepository = matchRepository;
         this.userRepository = userRepository;
         this.loginRepository = loginRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
+        String examplePass = passwordEncoder.encode("examplePass");
         // Adding users:
-        LoginAccess johnLogin = new LoginAccess("john","examplePass");
+        LoginAccess johnLogin = new LoginAccess("john",examplePass);
         loginRepository.save(johnLogin);
         User john = new User(johnLogin,"John Master","john@email.com");
         johnLogin.setUser(john);
         loginRepository.save(johnLogin);
         userRepository.save(john);
 
-        LoginAccess larryLogin = new LoginAccess("larry","examplePass");
+        LoginAccess larryLogin = new LoginAccess("larry",examplePass);
         loginRepository.save(larryLogin);
         User larry = new User(larryLogin,"Larry Sting","larry1@email.com");
         larryLogin.setUser(larry);
         loginRepository.save(larryLogin);
         userRepository.save(larry);
 
-        LoginAccess larissaLogin = new LoginAccess("larissa","examplePass");
+        LoginAccess larissaLogin = new LoginAccess("larissa",examplePass);
         loginRepository.save(larissaLogin);
         User larissa = new User(larissaLogin,"Larissa Hearth","larrissa@email.com");
         larissaLogin.setUser(larissa);
         loginRepository.save(larissaLogin);
         userRepository.save(larissa);
 
-        LoginAccess brunaLogin = new LoginAccess("bruna","examplePass");
+        LoginAccess brunaLogin = new LoginAccess("bruna",examplePass);
         loginRepository.save(brunaLogin);
         User bruna = new User(brunaLogin,"Bruna Lulu","bruna@email.com");
         brunaLogin.setUser(bruna);

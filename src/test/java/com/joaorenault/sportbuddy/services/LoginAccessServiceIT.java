@@ -38,10 +38,10 @@ class LoginAccessServiceIT {
         User lucas = new User(lucasLogin,"Lucas Master","lucas@email.com");
 
         //testing method
-        loginAccessService.saveLogin(lucasLogin); // *TEST* Persisting and creating a unique ID
+        loginAccessService.encodePassAndSaveLogin(lucasLogin); // *TEST* Persisting and creating a unique ID
         userRepository.save(lucas); //Persisting and creating a unique ID
         lucasLogin.setUser(lucas);
-        LoginAccess savedLogin = loginAccessService.saveLogin(lucasLogin); //*TEST*Persisting with the correct user
+        LoginAccess savedLogin = loginAccessService.encodePassAndSaveLogin(lucasLogin); //*TEST*Persisting with the correct user
 
         //Asserting results:
         Set<LoginAccess> logins = new HashSet<>();

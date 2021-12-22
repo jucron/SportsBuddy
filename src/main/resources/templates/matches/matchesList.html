@@ -36,7 +36,7 @@
         Logged in as:
         <a id="username" th:text="${mainUser.getName()}">Name</a>
         <li class="nav">
-            <a class="nav-link" href="#" th:href="@{/logout}">Log out</a>
+            <a class="nav-link" href="/logout" >Log out</a>
         </li>
     </div>
 
@@ -84,7 +84,7 @@
                                         <button class="btn btn-warning" disabled>Leave</button></span>
                                 </td>
                                 <td style="width: 5.00%"> <!-- Delete match: ONLY for users that OWN that match-->
-                                    <span th:if="${match.ownerID} == ${mainUser.id}"><a th:href="@{/matches/match_delete/{id}(id=${match.getId()})}" class="btn btn-danger">Delete</a></span>
+                                    <span th:if="${match.ownerID} == ${mainUser.id}" ><a th:method="post" th:href="@{/matches/match_delete/{id}(id=${match.getId()})}" class="btn btn-danger">Delete</a></span>
                                     <span th:unless="${match.ownerID} == ${mainUser.id}"><button class="btn btn-danger" disabled>Delete</button></span>
                                 </td>
                             </tr>

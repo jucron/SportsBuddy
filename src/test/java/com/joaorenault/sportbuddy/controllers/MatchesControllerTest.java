@@ -48,7 +48,7 @@ class MatchesControllerTest {
     }
     @Test
     void matchesNotLogged() throws Exception {
-        when(sessionService.getSessionUserID()).thenReturn(null);
+//        when(sessionService.getSessionUserID()).thenReturn(null);
 
         //testing
         mockMvc.perform(get("/matches/matches"))
@@ -60,7 +60,7 @@ class MatchesControllerTest {
     void matchesLogged() throws Exception {
         User user = new User();
         TreeSet<Match> listOfMatches = new TreeSet<>();
-        when(sessionService.getSessionUserID()).thenReturn(1L);
+//        when(sessionService.getSessionUserID()).thenReturn(1L);
         when(userService.findUserById(1L)).thenReturn(user);
         when(matchService.getMatches()).thenReturn(listOfMatches);
 
@@ -76,7 +76,7 @@ class MatchesControllerTest {
     @Test
     void createMatchPage() throws Exception {
         User user = new User();
-        when(sessionService.getSessionUserID()).thenReturn(1L);
+//        when(sessionService.getSessionUserID()).thenReturn(1L);
         when(userService.findUserById(1L)).thenReturn(user);
 
         //testing
@@ -92,7 +92,7 @@ class MatchesControllerTest {
     @Test
     void createMatchHasErrors() throws Exception {
         User user = new User();
-        when(sessionService.getSessionUserID()).thenReturn(1L);
+//        when(sessionService.getSessionUserID()).thenReturn(1L);
         when(userService.findUserById(1L)).thenReturn(user);
 
         //testing
@@ -114,7 +114,7 @@ class MatchesControllerTest {
         User user = new User();
         Match match = new Match();
         user.setId(1L); match.setId(2L);
-        when(sessionService.getSessionUserID()).thenReturn(1L);
+//        when(sessionService.getSessionUserID()).thenReturn(1L);
         when(userService.findUserById(1L)).thenReturn(user);
 
         //testing
@@ -137,7 +137,7 @@ class MatchesControllerTest {
     @Test
     void createMatchPageBad() throws Exception {
         User user = new User();
-        when(sessionService.getSessionUserID()).thenReturn(1L);
+//        when(sessionService.getSessionUserID()).thenReturn(1L);
         when(userService.findUserById(1L)).thenReturn(user);
         ArgumentCaptor<FeedbackMessage> argumentCaptorFeedbackMessage = ArgumentCaptor.forClass(FeedbackMessage.class);
 
@@ -166,7 +166,7 @@ class MatchesControllerTest {
         user.setId(1L); match.setId(2L);
         match.setNumberOfParticipants(3); //Assuming 3 participants
 
-        when(sessionService.getSessionUserID()).thenReturn(user.getId());
+//        when(sessionService.getSessionUserID()).thenReturn(user.getId());
         when(userService.findUserById(1L)).thenReturn(user);
         when(matchService.findMatchById(2L)).thenReturn(match);
 
@@ -193,7 +193,7 @@ class MatchesControllerTest {
         match.getUsersAttending().add(user);
         user.getParticipatingMatches().add(match);
 
-        when(sessionService.getSessionUserID()).thenReturn(user.getId());
+//        when(sessionService.getSessionUserID()).thenReturn(user.getId());
         when(userService.findUserById(1L)).thenReturn(user);
         when(matchService.findMatchById(2L)).thenReturn(match);
 
@@ -221,7 +221,7 @@ class MatchesControllerTest {
         match.getUsersAttending().add(user);
         user.getParticipatingMatches().add(match);
 
-        when(sessionService.getSessionUserID()).thenReturn(user.getId());
+//        when(sessionService.getSessionUserID()).thenReturn(user.getId());
         when(userService.findUserById(1L)).thenReturn(user);
         when(matchService.findMatchById(2L)).thenReturn(match);
 
