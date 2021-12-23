@@ -1,5 +1,6 @@
 package com.joaorenault.sportbuddy.controllers;
 
+import com.joaorenault.sportbuddy.domain.LoginAccess;
 import com.joaorenault.sportbuddy.domain.Match;
 import com.joaorenault.sportbuddy.domain.User;
 import com.joaorenault.sportbuddy.helper.FeedbackMessage;
@@ -16,8 +17,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
-
-import java.util.TreeSet;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -48,36 +47,21 @@ class MatchesControllerTest {
     }
     @Test
     void matchesNotLogged() throws Exception {
-//        when(sessionService.getSessionUserID()).thenReturn(null);
 
         //testing
-        mockMvc.perform(get("/matches/matches"))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/index"));
-
-    }
-    @Test
-    void matchesLogged() throws Exception {
-        User user = new User();
-        TreeSet<Match> listOfMatches = new TreeSet<>();
-//        when(sessionService.getSessionUserID()).thenReturn(1L);
-        when(userService.findUserById(1L)).thenReturn(user);
-        when(matchService.getMatches()).thenReturn(listOfMatches);
-
-        //testing
-        mockMvc.perform(get("/matches/matches"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("mainUser"))
-                .andExpect(model().attributeExists("matches"))
-                .andExpect(view().name("matches/matchesList"));
+//        mockMvc.perform(get("/matches/matches"))
+//                .andExpect(status().isForbidden());
+//                .andExpect(view().name("redirect:/index"));
+        //todo: test security 'forbidden' status
 
     }
 
     @Test
     void createMatchPage() throws Exception {
+        LoginAccess login = new LoginAccess();
         User user = new User();
-//        when(sessionService.getSessionUserID()).thenReturn(1L);
-        when(userService.findUserById(1L)).thenReturn(user);
+        when(sessionService.getLoginOfCurrentSession()).thenReturn(login);
+        when(userService.findUserByLogin(any())).thenReturn(user);
 
         //testing
         mockMvc.perform(get("/matches/create_match_page"))
@@ -91,9 +75,10 @@ class MatchesControllerTest {
 
     @Test
     void createMatchHasErrors() throws Exception {
+        LoginAccess login = new LoginAccess();
         User user = new User();
-//        when(sessionService.getSessionUserID()).thenReturn(1L);
-        when(userService.findUserById(1L)).thenReturn(user);
+        when(sessionService.getLoginOfCurrentSession()).thenReturn(login);
+        when(userService.findUserByLogin(any())).thenReturn(user);
 
         //testing
         mockMvc.perform(get("/matches/create_match")
@@ -106,16 +91,17 @@ class MatchesControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("mainUser"))
                 .andExpect(model().attributeExists("matchCreation"))
-                .andExpect(view().name("matches/match_creation"));
+                .andExpect(view().name("matches/match_creation")); //will return to the same page and ask to corrections
 
     }
     @Test
     void createMatchIsOk() throws Exception {
+        LoginAccess login = new LoginAccess();
         User user = new User();
+        when(sessionService.getLoginOfCurrentSession()).thenReturn(login);
+        when(userService.findUserByLogin(any())).thenReturn(user);
         Match match = new Match();
         user.setId(1L); match.setId(2L);
-//        when(sessionService.getSessionUserID()).thenReturn(1L);
-        when(userService.findUserById(1L)).thenReturn(user);
 
         //testing
         mockMvc.perform(get("/matches/create_match")
@@ -136,9 +122,10 @@ class MatchesControllerTest {
 
     @Test
     void createMatchPageBad() throws Exception {
+        LoginAccess login = new LoginAccess();
         User user = new User();
-//        when(sessionService.getSessionUserID()).thenReturn(1L);
-        when(userService.findUserById(1L)).thenReturn(user);
+        when(sessionService.getLoginOfCurrentSession()).thenReturn(login);
+        when(userService.findUserByLogin(any())).thenReturn(user);
         ArgumentCaptor<FeedbackMessage> argumentCaptorFeedbackMessage = ArgumentCaptor.forClass(FeedbackMessage.class);
 
         //testing mvc mapping
@@ -161,13 +148,14 @@ class MatchesControllerTest {
     @Test
     void matchParticipate() {
         //data
+        LoginAccess login = new LoginAccess();
         User user = new User();
+        when(sessionService.getLoginOfCurrentSession()).thenReturn(login);
+        when(userService.findUserByLogin(any())).thenReturn(user);
         Match match = new Match();
         user.setId(1L); match.setId(2L);
         match.setNumberOfParticipants(3); //Assuming 3 participants
 
-//        when(sessionService.getSessionUserID()).thenReturn(user.getId());
-        when(userService.findUserById(1L)).thenReturn(user);
         when(matchService.findMatchById(2L)).thenReturn(match);
 
         //testing
@@ -186,15 +174,16 @@ class MatchesControllerTest {
     @Test
     void matchLeave() {
         //data
+        LoginAccess login = new LoginAccess();
         User user = new User();
+        when(sessionService.getLoginOfCurrentSession()).thenReturn(login);
+        when(userService.findUserByLogin(any())).thenReturn(user);
         Match match = new Match();
         user.setId(1L); match.setId(2L);
         match.setNumberOfParticipants(3); //Assuming 3 participants
         match.getUsersAttending().add(user);
         user.getParticipatingMatches().add(match);
 
-//        when(sessionService.getSessionUserID()).thenReturn(user.getId());
-        when(userService.findUserById(1L)).thenReturn(user);
         when(matchService.findMatchById(2L)).thenReturn(match);
 
         //testing
@@ -214,15 +203,17 @@ class MatchesControllerTest {
     @Test
     void matchDelete() {
         //data
+        LoginAccess login = new LoginAccess();
         User user = new User();
+        when(sessionService.getLoginOfCurrentSession()).thenReturn(login);
+        when(userService.findUserByLogin(any())).thenReturn(user);
+
         Match match = new Match();
         user.setId(1L); match.setId(2L);
         match.setNumberOfParticipants(1);
         match.getUsersAttending().add(user);
         user.getParticipatingMatches().add(match);
 
-//        when(sessionService.getSessionUserID()).thenReturn(user.getId());
-        when(userService.findUserById(1L)).thenReturn(user);
         when(matchService.findMatchById(2L)).thenReturn(match);
 
         //testing

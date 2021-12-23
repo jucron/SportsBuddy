@@ -54,11 +54,6 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .failureUrl("/index_badlogin")
                     .passwordParameter("password") //this is taken from form with name 'password'
                     .usernameParameter("username") //this is taken from form with name 'username'
-//                .and()
-//                .rememberMe()//Default of remember-me is 2 weeks
-//                    .tokenValiditySeconds((int) TimeUnit.DAYS.toSeconds(21))// customizing time to expiration
-//                    .key("somethingverysecured")// Key used to hash the remember-cookie content
-//                    .rememberMeParameter("remember-me")
                 .and()
                 .logout()
                     .logoutUrl("/logout")
@@ -67,8 +62,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                     .clearAuthentication(true)
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID", "remember-me")
-                    .logoutUrl("/index")
-                    .logoutSuccessUrl("/index");
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/");
 
     }
 
@@ -79,7 +74,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/register_page",
                 "/index_GoodRegister",
                 "/register",
-                "/checkErrorslogin"
+                "/error"
                 );
     }
     @Override

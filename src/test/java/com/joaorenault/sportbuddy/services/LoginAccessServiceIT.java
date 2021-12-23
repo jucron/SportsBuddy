@@ -4,10 +4,13 @@ import com.joaorenault.sportbuddy.domain.LoginAccess;
 import com.joaorenault.sportbuddy.domain.User;
 import com.joaorenault.sportbuddy.repositories.LoginRepository;
 import com.joaorenault.sportbuddy.repositories.UserRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.transaction.Transactional;
@@ -30,18 +33,25 @@ class LoginAccessServiceIT {
     @Autowired
     UserRepository userRepository;
 
+    PasswordEncoder passwordEncoder;
+
+    @BeforeEach
+    void setUp() {
+        passwordEncoder = new BCryptPasswordEncoder(10);
+    }
+
     @Test
     @Transactional
-    void saveLogin() {
+    void encodeAndSaveLogin() {
         //Creating data:
         LoginAccess lucasLogin = new LoginAccess("lucas","examplePass");
         User lucas = new User(lucasLogin,"Lucas Master","lucas@email.com");
 
         //testing method
-        loginAccessService.encodePassAndSaveLogin(lucasLogin); // *TEST* Persisting and creating a unique ID
+        loginAccessService.encodePassAndSaveLogin(lucasLogin); // *TEST* Persisting, encoding pass and creating a unique ID
         userRepository.save(lucas); //Persisting and creating a unique ID
         lucasLogin.setUser(lucas);
-        LoginAccess savedLogin = loginAccessService.encodePassAndSaveLogin(lucasLogin); //*TEST*Persisting with the correct user
+        LoginAccess savedLogin = loginAccessService.saveLogin(lucasLogin); //*TEST*Persisting with the correct user
 
         //Asserting results:
         Set<LoginAccess> logins = new HashSet<>();
@@ -49,7 +59,7 @@ class LoginAccessServiceIT {
 
         assertNotNull(savedLogin);
         assertEquals("lucas",savedLogin.getUsername());
-        assertEquals("examplePass",savedLogin.getPassword());
+        assertTrue(passwordEncoder.matches("examplePass",savedLogin.getPassword()));
         assertEquals((4+1),logins.size()); //Bootstrap (4) + newLogin (1)
         assertTrue(logins.iterator().hasNext());
     }

@@ -37,6 +37,7 @@ public class IndexController {
     public String startupPage (Model model) {
         log.info("index mapping accessed");
         if (sessionService.getLoginOfCurrentSession()!=null) {
+            log.info("User is already logged in, redirecting to matches list");
             return "redirect:matches/matches";
         }
         model.addAttribute("login", new LoginAccess());
