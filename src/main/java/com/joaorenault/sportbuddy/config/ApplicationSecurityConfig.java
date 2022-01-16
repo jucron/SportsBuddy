@@ -21,7 +21,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
-//    private final HashService hashService;
     private final LoginAccessServiceImpl loginAccessService;
 
     @Autowired
@@ -74,7 +73,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/register_page",
                 "/index_GoodRegister",
                 "/register",
-                "/error"
+                "/error",
+                "/passrecovery",
+                "/pass-recovery",
+                "/send_email"
                 );
     }
     @Override
@@ -89,34 +91,5 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(loginAccessService);
         return provider;
     }
-/*
-    @Override
-    @Bean
-    protected UserDetailsService userDetailsService() {
-        UserDetails annaSmithUser = User.builder()
-                .username("annasmith")
-                .password(passwordEncoder.encode("password"))
-                .authorities(STUDENT.getGrantedAuthorities())
-                .build();
 
-        UserDetails lindaUser = User.builder()
-                .username("linda")
-                .password(passwordEncoder.encode("password123"))
-                .authorities(ADMIN.getGrantedAuthorities())
-                .build();
-
-        UserDetails tomUser = User.builder()
-                .username("tom")
-                .password(passwordEncoder.encode("password123"))
-                .authorities(ADMINTRAINEE.getGrantedAuthorities())
-                .build();
-
-        return new InMemoryUserDetailsManager(
-                annaSmithUser,
-                lindaUser,
-                tomUser
-        );
-
-    }
-*/
 }

@@ -9,10 +9,11 @@ import java.util.TreeSet;
 public interface UserService {
     TreeSet<User> getUsers();
     User findUserById(Long l);
+    User findUserByEmail(String email);
     User saveUser(User user);
     void deleteUserById(Long idToDelete);
     User findUserByLogin(LoginAccess login);
     void removeAllParticipantsOfAMatch(Match match);
 
-//    User findUserByLogin(LoginAccess login);
+    boolean checkExistentEmail(User user);
 }

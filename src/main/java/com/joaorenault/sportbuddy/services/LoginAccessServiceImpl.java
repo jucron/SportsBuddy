@@ -59,6 +59,8 @@ public class LoginAccessServiceImpl implements LoginAccessService, UserDetailsSe
         //User not found:
         return null; //todo
     }
+
+
     @Override
     public LoginAccess findLoginByUsername(String username) {
         //login not found: will return null

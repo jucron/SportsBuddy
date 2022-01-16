@@ -38,6 +38,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
+    }
+
+    @Override
     public User saveUser(User user) {
         User savedUser = userRepository.save(user);
         return savedUser;
@@ -59,6 +64,11 @@ public class UserServiceImpl implements UserService {
         for (User user : users) {
             user.getParticipatingMatches().remove(match);
         }
+    }
+
+    @Override
+    public boolean checkExistentEmail(User user) {
+        return userRepository.findUserByEmail(user.getEmail()) != null;
     }
 
 }

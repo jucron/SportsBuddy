@@ -33,11 +33,15 @@
         Sports Buddy
     </a>
     <div id="log">
-        Logged in as:
-        <a id="username" th:text="${mainUser.getName()}">Name</a>
+        <p>Logged in as: <a id="username" th:text="${mainUser.getName()}">Name</a></p>
+
+        <li class="nav">
+            <a class="nav-link" href="/updateAccount" >Change account details</a>
+        </li>
         <li class="nav">
             <a class="nav-link" href="/logout" >Log out</a>
         </li>
+
     </div>
 
 </nav>

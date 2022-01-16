@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import java.security.NoSuchAlgorithmException;
 
 @Slf4j
@@ -45,11 +46,7 @@ public class IndexController {
 
         return "index";
     }
-//    @GetMapping({"logout"})
-//    public String logout () {
-//        sessionService.setSessionUserID(null);
-//        return "redirect:index";
-//    }
+
     //Bad Login index
     @GetMapping({"index_badlogin"})
     public String startupPageBadLogin (Model model) {
@@ -98,8 +95,15 @@ public class IndexController {
             log.debug("Username already taken");
             return "registerForm";
         }
-        //if not existent, proceeds to persist data
-//        login.setPassword(hashService.hashPass(login.getPassword()));
+        //Checking email already registered
+        if (userService.checkExistentEmail(user)) {
+            //Email already exists
+            model.addAttribute("account", new FeedbackMessage(
+                    true,1,"Email address is already taken."));
+            log.debug("Email already taken");
+            return "registerForm";
+        }
+        //if username and email are not existent in DB, proceeds to persist data
         login.setPassword(login.getPassword());
         loginAccessService.encodePassAndSaveLogin(login); //Login has ID now
         user.setLogin(login);
@@ -107,5 +111,69 @@ public class IndexController {
         login.setUser(user);
         loginAccessService.saveLogin(login); //Persisting login with the user ID associated
         return "redirect:index_GoodRegister";
+    }
+    @GetMapping("updateAccount")
+    public String updateAccount (Model model) {
+        log.info("updateAccount mapping accessed");
+        LoginAccess currentLogin = sessionService.getLoginOfCurrentSession();
+        if (currentLogin==null) {
+            log.info("User is NOT logged in, redirecting to index");
+            return "redirect:index";
+        }
+        log.info("User is logged and attempted to update account details");
+
+        model.addAttribute("user", userService.findUserByLogin(currentLogin));
+        model.addAttribute("login", currentLogin);
+        model.addAttribute("updateForm", new UpdateForm());
+        model.addAttribute("account", new FeedbackMessage(true,3,"Update your account"));
+        return "updateForm";
+    }
+    @PostMapping("update")
+    public String update (@Valid @ModelAttribute("updateForm") UpdateForm updateForm, BindingResult result, Model model) throws NoSuchAlgorithmException {
+        log.info("register mapping accessed");
+        if (result.hasErrors()) {
+            log.info("Update Form has errors");
+            model.addAttribute("account", new FeedbackMessage(
+                    true,1,"Please correct errors."));
+            result.getAllErrors().forEach(objectError -> log.debug(objectError.toString()));
+            LoginAccess currentLogin = sessionService.getLoginOfCurrentSession();
+            model.addAttribute("user", userService.findUserByLogin(currentLogin));
+            model.addAttribute("login", currentLogin);
+            model.addAttribute("updateForm", new UpdateForm());
+            return "updateForm";
+        }
+        // proceeds to persist data:
+        //Fetching login and user objects
+        LoginAccess currentLogin = sessionService.getLoginOfCurrentSession();
+        User currentUser = userService.findUserByLogin(currentLogin);
+        //Setting new values
+        currentLogin.setPassword(updateForm.getPassword());
+        currentUser.setName(updateForm.getName());
+        //Persisting new data
+        loginAccessService.encodePassAndSaveLogin(currentLogin);
+        userService.saveUser(currentUser);
+        return "redirect:/";
+    }
+}
+class UpdateForm {
+    @NotBlank(message = "Password is mandatory")
+    private String password;
+    @NotBlank(message = "Name is mandatory")
+    private String name;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
