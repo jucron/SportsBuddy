@@ -35,7 +35,6 @@
             <h1>Welcome to Sports Buddy</h1>
             <p2>Please login or register</p2>
             <p> </p>
-<!--            <form action="#" th:action="@{/login}" th:object="${login}" method="post">-->
             <form method="post" action="/login" th:object="${login}">
                 <div class="form-group">
                     <label for="username"></label>
@@ -48,7 +47,7 @@
                         <input type="submit" class="btn btn-primary" value="Login">
                         <a href="register_page" class="btn btn-primary">Register</a>
                 <p> </p>
-                        <a href="pass-recovery" class="btn btn-info" >Password Recovery</a>
+                        <a href="pass-recovery" class="btn btn-secondary" >Password Recovery</a>
             </form>
             <p></p>
             <div th:if="${account.feedback} == true">
