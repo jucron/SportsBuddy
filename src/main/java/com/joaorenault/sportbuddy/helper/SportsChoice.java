@@ -20,17 +20,17 @@ public class SportsChoice {
 
     public String sportSelected (int number) {
         if (number==SOCCER) {
-            return "Soccer";
+            return Sports.SOCCER.getSport();
         } else if (number==BASKETBALL) {
-            return "Basketball";
+            return Sports.BASKETBALL.getSport();
         } else if (number==VOLLEYBALL) {
-            return "Volleyball";
+            return Sports.VOLLEYBALL.getSport();
         }else if (number==TENNIS) {
-            return "Tennis";
+            return Sports.TENNIS.getSport();
         }else if (number==TABLE_TENNIS) {
-            return "Table Tennis";
+            return Sports.TABLE_TENNIS.getSport();
         }else if (number==BASEBALL) {
-            return "Baseball";
+            return Sports.VOLLEYBALL.getSport();
         }
         return "No sport selected";
     }

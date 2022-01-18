@@ -2,7 +2,8 @@
 [![CircleCI](https://circleci.com/gh/jucron/SportsBuddy/tree/master.svg?style=svg)](https://circleci.com/gh/jucron/SportsBuddy/tree/master)
 [![codecov](https://codecov.io/gh/jucron/SportsBuddy/branch/master/graph/badge.svg?token=JJ69RWVFUI)](https://codecov.io/gh/jucron/SportsBuddy)
 
-#### Website of the App: [Heroku server (live testing)](https://joao-sports-buddy.herokuapp.com/)
+### Website of the App: 
+>[Heroku server (live testing)](https://joao-sports-buddy.herokuapp.com/)
 
 ### Motivation:
 This app was initially created as the Final Project of *[CS50's Introduction to Computer Science](https://online-learning.harvard.edu/course/cs50-introduction-computer-science)*.
@@ -10,7 +11,7 @@ This app was initially created as the Final Project of *[CS50's Introduction to 
 Website's functionality: Create sports events and centralize information of matches. 
 Theme Motivation of this app: Difficulty of meeting people, for the practice of sport, for any kinds of reasons. If you recently moved to a new country/region or have lost contact with your friends, you can use the website as a tool for socializing and play sports.
 
-#### Video Demo (just an introduction):  [Youtube video link](https://youtu.be/hkMPWurAIa8)
+#### Video Demo (for CS50's):  [Youtube video link](https://youtu.be/hkMPWurAIa8)
 
 ## Features
 ### Login
@@ -34,7 +35,7 @@ Theme Motivation of this app: Difficulty of meeting people, for the practice of 
 4. (Optional) run `docker logs -t <container>` to see the logs 
 #### Notes:
 Database is in-memory for demonstration purposes. It will be updated in the future.
-You won't be able to send the message via e-mail, unless account details are changed in application.properties fil
+You won't be able to send the message via e-mail, unless account details are changed in application.properties file
 ## Technology 
   - Java
   - Spring-Boot

@@ -72,44 +72,32 @@
                                 </div>
                                 <p></p>
                                 <p1>Sports that I like:</p1>
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-5" th:object="${sportschoice}">
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="soccer">
-                                            <label class="form-check-label" for="soccer">
-                                                Soccer
-                                            </label>
+                                            <input class="form-check-input" type="checkbox" id="soccer" th:field="*{soccer}">
+                                            <label class="form-check-label" for="soccer"> Soccer</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="basketball">
-                                            <label class="form-check-label" for="basketball">
-                                                Basketball
-                                            </label>
+                                            <input class="form-check-input" type="checkbox" id="basketball" th:field="*{basketball}" >
+                                            <label class="form-check-label" for="basketball">Basketball</label>
                                         </div>
                                         <div class="form-check">
-                                            <input class="form-check-input" type="checkbox" value="" id="volleyball">
-                                            <label class="form-check-label" for="volleyball">
-                                                Volleyball
-                                            </label>
+                                            <input class="form-check-input" type="checkbox" id="volleyball" th:field="*{volleyball}" >
+                                            <label class="form-check-label" for="volleyball">Volleyball</label>
                                         </div>
                                 </div>
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-md-5" th:object="${sportschoice}">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="Tennis">
-                                        <label class="form-check-label" for="Tennis">
-                                            Tennis
-                                        </label>
+                                        <input class="form-check-input" type="checkbox" id="tennis" th:field="*{tennis}" >
+                                        <label class="form-check-label" for="tennis">Tennis</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="Table Tennis">
-                                        <label class="form-check-label" for="Table Tennis">
-                                            Table Tennis
-                                        </label>
+                                        <input class="form-check-input" type="checkbox" id="table_tennis" th:field="*{table_tennis}">
+                                        <label class="form-check-label" for="table_tennis">Table Tennis</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value="" id="Baseball">
-                                        <label class="form-check-label" for="Baseball">
-                                            Baseball
-                                        </label>
+                                        <input class="form-check-input" type="checkbox" id="baseball" th:field="*{baseball}" >
+                                        <label class="form-check-label" for="baseball">Baseball</label>
                                     </div>
                                 </div>
 

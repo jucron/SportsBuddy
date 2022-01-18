@@ -14,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
 
+import static com.joaorenault.sportbuddy.helper.Sports.*;
+
 @Component
 public class SportsBootstrap implements ApplicationListener<ContextRefreshedEvent> {
     private final MatchRepository matchRepository;
@@ -65,13 +67,13 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
 
         //Adding matches and relating users:
         Match match1 = createMatch("3 on 3", "2021-11-21","16:00","Plaza sports center","Bring all friends!",
-                john, 2);
+                john, BASKETBALL.getSport());
         Match match2 = createMatch("Soccer relax", "2021-11-10","10:00","Main field","I have ball already",
-                larry, 1);
+                larry, SOCCER.getSport());
         Match match3 = createMatch("Tennis with friends", "2021-11-13","15:00","Tennis club","Everyone is welcome!",
-                larissa,4);
+                larissa, TENNIS.getSport());
         Match match4 = createMatch("Beach Volleyball!", "2021-11-25", "11:00","Long Beach", "We're starting when 4 is already there",
-                bruna,3);
+                bruna, VOLLEYBALL.getSport());
         // Making people participate:
         participateMatch(john.getId(), match1.getId());
         participateMatch(larry.getId(), match2.getId());
@@ -79,7 +81,7 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
 
     }
 
-    private Match createMatch (String name, String date, String hour,String location, String details,User user, int sport) {
+    private Match createMatch (String name, String date, String hour,String location, String details,User user, String sport) {
         Match match = new Match();
         match.setName(name);
         match.setDate(date);
@@ -90,7 +92,8 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
         match.setNumberOfParticipants(1);
         match.getUsersAttending().add(user);
         match.setOwnerName(user.getName());
-        match.setSportName(sportsService.sportSelected(sport));
+        match.setSportName(sport);
+//        match.setSportName(sportsService.sportSelected(sport));
         matchRepository.save(match);
         user.getParticipatingMatches().add(match);
         userRepository.save(user);

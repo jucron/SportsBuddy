@@ -6,6 +6,9 @@ import com.joaorenault.sportbuddy.helper.FeedbackMessage;
 import com.joaorenault.sportbuddy.services.LoginAccessService;
 import com.joaorenault.sportbuddy.services.SessionService;
 import com.joaorenault.sportbuddy.services.UserService;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +20,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.joaorenault.sportbuddy.helper.Sports.*;
 
 @Slf4j
 @Controller
@@ -71,6 +78,7 @@ public class IndexController {
         model.addAttribute("user", new User());
         model.addAttribute("login", new LoginAccess());
         model.addAttribute("account", new FeedbackMessage(false));
+        model.addAttribute("sportschoice", new SportsForm());
         log.info("register_page mapping accessed");
         return "registerForm";
     }
@@ -78,7 +86,7 @@ public class IndexController {
     // Process register input
     @PostMapping("register")
     public String addUser (@Valid @ModelAttribute("user") User user, BindingResult resultUser, @Valid @ModelAttribute("login") LoginAccess login,
-                           BindingResult resultLogin, Model model) throws NoSuchAlgorithmException {
+                           BindingResult resultLogin, @ModelAttribute("sportschoice") SportsForm sportsForm, Model model) throws NoSuchAlgorithmException {
         log.info("register mapping accessed");
         if (resultUser.hasErrors() || resultLogin.hasErrors()) {
                 model.addAttribute("account", new FeedbackMessage(
@@ -104,6 +112,12 @@ public class IndexController {
             return "registerForm";
         }
         //if username and email are not existent in DB, proceeds to persist data
+        //Getting sports favourites
+        List<String> favouriteSportsList = sportsForm.getListOfSports();
+        user.setFavouriteSports(favouriteSportsList); log.info("Sports selected: "+favouriteSportsList.toString());
+        log.info(String.valueOf("SportsForm is: "+sportsForm));
+
+        //Persisting login and user data
         login.setPassword(login.getPassword());
         loginAccessService.encodePassAndSaveLogin(login); //Login has ID now
         user.setLogin(login);
@@ -114,6 +128,7 @@ public class IndexController {
     }
     @GetMapping("updateAccount")
     public String updateAccount (Model model) {
+//        todo: implement sports selection to update form
         log.info("updateAccount mapping accessed");
         LoginAccess currentLogin = sessionService.getLoginOfCurrentSession();
         if (currentLogin==null) {
@@ -155,25 +170,33 @@ public class IndexController {
         return "redirect:/";
     }
 }
+@Data
 class UpdateForm {
     @NotBlank(message = "Password is mandatory")
     private String password;
     @NotBlank(message = "Name is mandatory")
     private String name;
+}
+@Data
+@Getter
+@Setter
+class SportsForm {
+    private boolean soccer;
+    private boolean basketball;
+    private boolean volleyball;
+    private boolean tennis;
+    private boolean table_tennis;
+    private boolean baseball;
 
-    public String getPassword() {
-        return password;
-    }
+    List<String> getListOfSports () {
+        List<String> list = new ArrayList<>();
+        if (soccer) { list.add(SOCCER.getSport());}
+        if (basketball) { list.add(BASKETBALL.getSport());}
+        if (volleyball) { list.add(VOLLEYBALL.getSport());}
+        if (tennis) { list.add(TENNIS.getSport());}
+        if (table_tennis) { list.add(TABLE_TENNIS.getSport());}
+        if (baseball) { list.add(BASEBALL.getSport());}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
+        return list;
     }
 }
