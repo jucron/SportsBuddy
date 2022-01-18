@@ -2,22 +2,46 @@
 [![CircleCI](https://circleci.com/gh/jucron/SportsBuddy/tree/master.svg?style=svg)](https://circleci.com/gh/jucron/SportsBuddy/tree/master)
 [![codecov](https://codecov.io/gh/jucron/SportsBuddy/branch/master/graph/badge.svg?token=JJ69RWVFUI)](https://codecov.io/gh/jucron/SportsBuddy)
 
-#### Video Demo:  [Youtube video link](https://youtu.be/hkMPWurAIa8)
-#### Description:
+#### Website of the App: [Heroku server (live testing)](https://joao-sports-buddy.herokuapp.com/)
+
+### Motivation:
 This app was initially created as the Final Project of *[CS50's Introduction to Computer Science](https://online-learning.harvard.edu/course/cs50-introduction-computer-science)*.
 
 Website's functionality: Create sports events and centralize information of matches. 
 Theme Motivation of this app: Difficulty of meeting people, for the practice of sport, for any kinds of reasons. If you recently moved to a new country/region or have lost contact with your friends, you can use the website as a tool for socializing and play sports.
 
-Try it yourself, with the link:
-[Live testing of the WebApp (Heroku server)](https://joao-sports-buddy.herokuapp.com/)
+#### Video Demo (just an introduction):  [Youtube video link](https://youtu.be/hkMPWurAIa8)
 
-Coding features: 
-  - Java, Spring-Boot
+## Features
+### Login
+* Account creation with unique username and e-mail
+* Password safely encoded and stored in database
+* Credentials check and login with session 
+### Password recovery
+* Send a message to the registered e-mail containing a new password
+### Account update
+* Option to update Name and Password when logged in
+### Match management
+* Match creation with field validation
+* Match participation in which you are not participating
+* Match leaving in which you are participating
+* Match delete if you are the owner
+## Getting Started
+### Via Docker
+1. After changes run `docker build -t sportsbuddy .` in a project root directory to build application image.
+2. After image is fully built, run `docker run -d -p 8080:8080 sportsbuddy` to start the image
+3. With a browser, access the app via http://localhost:8080/ 
+4. (Optional) run `docker logs -t <container>` to see the logs 
+#### Notes:
+Database is in-memory for demonstration purposes. It will be updated in the future.
+You won't be able to send the message via e-mail, unless account details are changed in application.properties fil
+## Technology 
+  - Java
+  - Spring-Boot
   - Java Persistence API (JPA)
   - Hibernate (object relational mapping)
   - Thymeleaf (Frontend java engine)
-  - Maven (build)
+  - Maven (build, dependencies)
   - Testing
   - Spring Security (Form based login)
   - HTML
