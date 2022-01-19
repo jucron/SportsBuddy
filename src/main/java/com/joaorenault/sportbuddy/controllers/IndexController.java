@@ -3,12 +3,11 @@ package com.joaorenault.sportbuddy.controllers;
 import com.joaorenault.sportbuddy.domain.LoginAccess;
 import com.joaorenault.sportbuddy.domain.User;
 import com.joaorenault.sportbuddy.helper.FeedbackMessage;
+import com.joaorenault.sportbuddy.helper.SportsForm;
 import com.joaorenault.sportbuddy.services.LoginAccessService;
 import com.joaorenault.sportbuddy.services.SessionService;
 import com.joaorenault.sportbuddy.services.UserService;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.List;
-
-import static com.joaorenault.sportbuddy.helper.Sports.*;
 
 @Slf4j
 @Controller
@@ -112,10 +108,11 @@ public class IndexController {
             return "registerForm";
         }
         //if username and email are not existent in DB, proceeds to persist data
-        //Getting sports favourites
+        log.info("Persisting (creating) data");
+        //Creating favourite sports
         List<String> favouriteSportsList = sportsForm.getListOfSports();
-        user.setFavouriteSports(favouriteSportsList); log.info("Sports selected: "+favouriteSportsList.toString());
-        log.info(String.valueOf("SportsForm is: "+sportsForm));
+        user.setFavouriteSports(favouriteSportsList);
+//        log.info("Sports selected: "+favouriteSportsList.toString());
 
         //Persisting login and user data
         login.setPassword(login.getPassword());
@@ -128,23 +125,24 @@ public class IndexController {
     }
     @GetMapping("updateAccount")
     public String updateAccount (Model model) {
-//        todo: implement sports selection to update form
         log.info("updateAccount mapping accessed");
         LoginAccess currentLogin = sessionService.getLoginOfCurrentSession();
         if (currentLogin==null) {
             log.info("User is NOT logged in, redirecting to index");
             return "redirect:index";
         }
-        log.info("User is logged and attempted to update account details");
+        log.info("User is logged and will reach updateForm");
 
         model.addAttribute("user", userService.findUserByLogin(currentLogin));
         model.addAttribute("login", currentLogin);
         model.addAttribute("updateForm", new UpdateForm());
-        model.addAttribute("account", new FeedbackMessage(true,3,"Update your account"));
+        model.addAttribute("sportschoice", new SportsForm());
+        model.addAttribute("account", new FeedbackMessage(false));
         return "updateForm";
     }
     @PostMapping("update")
-    public String update (@Valid @ModelAttribute("updateForm") UpdateForm updateForm, BindingResult result, Model model) throws NoSuchAlgorithmException {
+    public String update (@Valid @ModelAttribute("updateForm") UpdateForm updateForm, BindingResult result,
+                          @ModelAttribute("sportschoice") SportsForm sportsForm, Model model) {
         log.info("register mapping accessed");
         if (result.hasErrors()) {
             log.info("Update Form has errors");
@@ -158,9 +156,15 @@ public class IndexController {
             return "updateForm";
         }
         // proceeds to persist data:
+        log.info("Persisting (updating) data");
         //Fetching login and user objects
         LoginAccess currentLogin = sessionService.getLoginOfCurrentSession();
         User currentUser = userService.findUserByLogin(currentLogin);
+        //Updating favourite sports
+        List<String> favouriteSportsList = sportsForm.getListOfSports();
+        currentUser.setFavouriteSports(favouriteSportsList);
+//        log.info("Sports selected: "+favouriteSportsList.toString());
+
         //Setting new values
         currentLogin.setPassword(updateForm.getPassword());
         currentUser.setName(updateForm.getName());
@@ -176,27 +180,4 @@ class UpdateForm {
     private String password;
     @NotBlank(message = "Name is mandatory")
     private String name;
-}
-@Data
-@Getter
-@Setter
-class SportsForm {
-    private boolean soccer;
-    private boolean basketball;
-    private boolean volleyball;
-    private boolean tennis;
-    private boolean table_tennis;
-    private boolean baseball;
-
-    List<String> getListOfSports () {
-        List<String> list = new ArrayList<>();
-        if (soccer) { list.add(SOCCER.getSport());}
-        if (basketball) { list.add(BASKETBALL.getSport());}
-        if (volleyball) { list.add(VOLLEYBALL.getSport());}
-        if (tennis) { list.add(TENNIS.getSport());}
-        if (table_tennis) { list.add(TABLE_TENNIS.getSport());}
-        if (baseball) { list.add(BASEBALL.getSport());}
-
-        return list;
-    }
 }

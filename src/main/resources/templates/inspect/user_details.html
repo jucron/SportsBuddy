@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <style>
+        img {
+            position: relative;
+            width: 4rem;
+            height: 4rem;
+        }
+        #log {
+            position: relative;
+            right: 50px;
+        }
+        #username {
+            font-style: italic;
+        }
+    </style>
+
+</head>
+<body>
+<!-- Option 1: Bootstrap Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+<!-- Image and text -->
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+        <img src="/navbar.PNG" class="d-inline-block align-top" alt="" th:src="@{/images/navbar.PNG}">
+        Sports Buddy
+    </a>
+    <div id="log">
+        <p>Logged in as: <a id="username" th:text="${mainUser.getName()}">Name</a></p>
+
+        <li class="nav">
+            <a class="nav-link" href="/updateAccount" >Change account details</a>
+        </li>
+        <li class="nav">
+            <a class="nav-link" href="/logout" >Log out</a>
+        </li>
+
+    </div>
+
+</nav>
+<div class="container my-2">
+    <div class="card">
+        <div class="card-body">
+            <div th:switch="${matches}" class="container my-5">
+                <p class="my-5">
+                    <a href="/matches/create_match_page" class="btn btn-primary"><i
+                            class="fas fa-user-plus ml-2"> Create a new match</i></a>
+                </p>
+                <div class="col-md-12">
+                    <h2 th:case="null">No matches!</h2>
+                    <div th:case="*">
+                        <table class="table table-striped table-responsive-md">
+                            <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Sport</th>
+                                <th>Participants</th>
+                                <th>Date</th>
+                                <th>Hour</th>
+                                <th>Location</th>
+                                <th>Owner</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="match : ${matches}">
+                                <td th:text="${match.name}"></td>
+                                <td th:text="${match.sportName}"></td>
+                                <td th:text="${match.numberOfParticipants}"></td>
+                                <td th:text="${match.date}"></td>
+                                <td th:text="${match.hour}"></td>
+                                <td th:text="${match.location}"></td>
+                                <td th:text="${match.ownerName}"></td>
+                                <td style="width: 5.00%"> <!-- Participate: NOT for users that have that match -->
+                                    <span th:if="${mainUser.getParticipatingMatches().contains(match)}"><button class="btn btn-info" disabled>Participate</button></span>
+                                    <span th:unless="${mainUser.getParticipatingMatches().contains(match)}"><a th:href="@{/matches/match_participate/{id}(id=${match.getId()})}" class="btn btn-info">Participate</a></span>
+                                </td>
+                                <td style="width: 5.00%"> <!-- Leave match: ONLY for users that have that match AND are not owners-->
+                                    <span th:if="${(mainUser.getParticipatingMatches().contains(match)) && ((match.ownerID) != (mainUser.id))}">
+                                        <a th:href="@{/matches/match_leave/{id}(id=${match.getId()})}" class="btn btn-warning">Leave</a></span>
+                                    <span th:unless="${(mainUser.getParticipatingMatches().contains(match)) && ((match.ownerID) != (mainUser.id))}">
+                                        <button class="btn btn-warning" disabled>Leave</button></span>
+                                </td>
+                                <td style="width: 5.00%"> <!-- Delete match: ONLY for users that OWN that match-->
+                                    <span th:if="${match.ownerID} == ${mainUser.id}" ><a th:method="post" th:href="@{/matches/match_delete/{id}(id=${match.getId()})}" class="btn btn-danger">Delete</a></span>
+                                    <span th:unless="${match.ownerID} == ${mainUser.id}"><button class="btn btn-danger" disabled>Delete</button></span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

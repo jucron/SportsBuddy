@@ -96,14 +96,14 @@
                         <div class="form-row align-items-center">
                             <div class="col-auto my-1">
                                 <label class="mr-sm-2" for="inlineFormCustomSelect" >Sport  </label>
-                                <select th:field="*{sportChoice}" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                                <select th:field="*{sportName}" class="custom-select mr-sm-2" id="inlineFormCustomSelect">
 <!--                                    <option selected>Choose...</option>-->
-                                    <option value="1">Soccer </option>
-                                    <option value="2">Basketball</option>
-                                    <option value="3">Volleyball</option>
-                                    <option value="4">Tennis</option>
-                                    <option value="5">Table Tennis</option>
-                                    <option value="6">Baseball</option>
+                                    <option value="Soccer">Soccer </option>
+                                    <option value="Basketball">Basketball</option>
+                                    <option value="Volleyball">Volleyball</option>
+                                    <option value="Tennis">Tennis</option>
+                                    <option value="Table Tennis">Table Tennis</option>
+                                    <option value="Baseball">Baseball</option>
                                 </select>
                             </div>
                         </div>
@@ -129,7 +129,6 @@
     </div>
     <div class="col-md-4">
         <img id="img2" src="logo2.jpg" class="d-inline-block align-top" alt="" th:src="@{/images/logo2.jpg}">
-    </div>
     </div>
 </body>
 </html>

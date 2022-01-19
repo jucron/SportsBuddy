@@ -2,7 +2,6 @@ package com.joaorenault.sportbuddy.services;
 
 import com.joaorenault.sportbuddy.domain.Match;
 import com.joaorenault.sportbuddy.domain.User;
-import com.joaorenault.sportbuddy.helper.SportsChoice;
 import com.joaorenault.sportbuddy.repositories.LoginRepository;
 import com.joaorenault.sportbuddy.repositories.MatchRepository;
 import org.junit.jupiter.api.Test;

@@ -3,7 +3,6 @@ package com.joaorenault.sportbuddy.bootstrap;
 import com.joaorenault.sportbuddy.domain.LoginAccess;
 import com.joaorenault.sportbuddy.domain.Match;
 import com.joaorenault.sportbuddy.domain.User;
-import com.joaorenault.sportbuddy.helper.SportsChoice;
 import com.joaorenault.sportbuddy.repositories.LoginRepository;
 import com.joaorenault.sportbuddy.repositories.MatchRepository;
 import com.joaorenault.sportbuddy.repositories.UserRepository;

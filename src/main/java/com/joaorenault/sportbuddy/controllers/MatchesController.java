@@ -3,7 +3,6 @@ package com.joaorenault.sportbuddy.controllers;
 import com.joaorenault.sportbuddy.domain.Match;
 import com.joaorenault.sportbuddy.domain.User;
 import com.joaorenault.sportbuddy.helper.FeedbackMessage;
-import com.joaorenault.sportbuddy.helper.SportsChoice;
 import com.joaorenault.sportbuddy.services.MatchService;
 import com.joaorenault.sportbuddy.services.SessionService;
 import com.joaorenault.sportbuddy.services.UserService;
@@ -23,8 +22,7 @@ import javax.validation.Valid;
 @Slf4j
 public class MatchesController {
 
-    private SessionService sessionService;
-    private SportsChoice sportsService = new SportsChoice();
+    private final SessionService sessionService;
     private final MatchService matchService;
     private final UserService userService;
 
@@ -40,7 +38,6 @@ public class MatchesController {
         //Go back to index in case of not logged in
         log.info("matches mapping accessed");
         User mainUser = userService.findUserByLogin(sessionService.getLoginOfCurrentSession());
-//        User mainUser = userService.findUserById(sessionService.getSessionUserID());
         model.addAttribute("mainUser", mainUser);
         model.addAttribute("matches",matchService.getMatches());
 
@@ -49,7 +46,6 @@ public class MatchesController {
     @GetMapping("create_match_page")
     public String createMatchPage (Model model) {
         User mainUser = userService.findUserByLogin(sessionService.getLoginOfCurrentSession());
-//        User mainUser = userService.findUserById(sessionService.getSessionUserID());
         log.info("createMatchPage mapping accessed");
         model.addAttribute("mainUser", mainUser);
         model.addAttribute("match", new Match());
@@ -70,18 +66,13 @@ public class MatchesController {
             return "matches/match_creation";
         }
         // Associating fields not completed and saving in repository
-
-
         User user = userService.findUserByLogin(sessionService.getLoginOfCurrentSession());
-//        Long userID = sessionService.getSessionUserID();
-        String sportSelected = sportsService.sportSelected(match.getSportChoice());
-//        User user = userService.findUserById(userID);
 
         match.setOwnerID(user.getId());
         match.setNumberOfParticipants(1);
         match.getUsersAttending().add(user);
         match.setOwnerName(user.getName());
-        match.setSportName(sportSelected);
+//        match.setSportName(sportSelected);
         matchService.saveMatch(match);
 
         user.getParticipatingMatches().add(match);
@@ -92,7 +83,6 @@ public class MatchesController {
     public String createMatchPageBad (Model model) {
         log.info("createMatchPageBad mapping accessed");
         User mainUser = userService.findUserByLogin(sessionService.getLoginOfCurrentSession());
-//        User mainUser = userService.findUserById(sessionService.getSessionUserID());
 
         model.addAttribute("mainUser", mainUser);
         model.addAttribute("match", new Match());
@@ -104,7 +94,6 @@ public class MatchesController {
     public String matchParticipate (@PathVariable("id") long id) {
         log.info("matchParticipate mapping accessed");
         User mainUser = userService.findUserByLogin(sessionService.getLoginOfCurrentSession());
-//        User mainUser = userService.findUserById(sessionService.getSessionUserID());
         Match match = matchService.findMatchById(id);
         match.setNumberOfParticipants(match.getNumberOfParticipants()+1);
         match.getUsersAttending().add(mainUser);
@@ -117,7 +106,6 @@ public class MatchesController {
     public String matchLeave (@PathVariable("id") long id) {
         log.info("matchLeave mapping accessed");
         User mainUser = userService.findUserByLogin(sessionService.getLoginOfCurrentSession());
-//        User mainUser = userService.findUserById(sessionService.getSessionUserID());
         Match match = matchService.findMatchById(id);
         match.setNumberOfParticipants(match.getNumberOfParticipants()-1);
         match.getUsersAttending().remove(mainUser);
@@ -130,7 +118,6 @@ public class MatchesController {
     public String matchDelete (@PathVariable("id") long id) {
         log.info("matchDelete mapping accessed");
         User mainUser = userService.findUserByLogin(sessionService.getLoginOfCurrentSession());
-//        User mainUser = userService.findUserById(sessionService.getSessionUserID());
         Match match = matchService.findMatchById(id);
         userService.removeAllParticipantsOfAMatch(match);
         matchService.deleteMatchById(match.getId());

@@ -37,14 +37,12 @@ public class Match {
 
     private int numberOfParticipants;
 
-    private int sportChoice;
-
     private String sportName;
 
     public Match() {
     }
 
-    public Match(Long id, String name, List<User> usersAttending, String date, String hour, String location, String details, Long ownerID, String ownerName, int numberOfParticipants, int sportChoice, String sportName) {
+    public Match(Long id, String name, List<User> usersAttending, String date, String hour, String location, String details, Long ownerID, String ownerName, int numberOfParticipants, String sportName) {
         this.id = id;
         this.name = name;
         this.usersAttending = usersAttending;
@@ -55,7 +53,6 @@ public class Match {
         this.ownerID = ownerID;
         this.ownerName = ownerName;
         this.numberOfParticipants = numberOfParticipants;
-        this.sportChoice = sportChoice;
         this.sportName = sportName;
     }
 
@@ -137,14 +134,6 @@ public class Match {
 
     public void setNumberOfParticipants(int numberOfParticipants) {
         this.numberOfParticipants = numberOfParticipants;
-    }
-
-    public int getSportChoice() {
-        return sportChoice;
-    }
-
-    public void setSportChoice(int sportChoice) {
-        this.sportChoice = sportChoice;
     }
 
     public String getSportName() {
