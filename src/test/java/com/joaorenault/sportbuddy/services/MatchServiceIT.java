@@ -2,6 +2,7 @@ package com.joaorenault.sportbuddy.services;
 
 import com.joaorenault.sportbuddy.domain.Match;
 import com.joaorenault.sportbuddy.domain.User;
+import com.joaorenault.sportbuddy.helper.Sports;
 import com.joaorenault.sportbuddy.repositories.LoginRepository;
 import com.joaorenault.sportbuddy.repositories.MatchRepository;
 import org.junit.jupiter.api.Test;
@@ -28,14 +29,12 @@ class MatchServiceIT {
     @Autowired
     MatchRepository matchRepository;
 
-    SportsChoice sportsService = new SportsChoice();
-
     @Test
     @Transactional
     void saveMatch() {
         //Creating data:
         Match match1 = createMatch("Space Basketball", "2021-11-21","16:00","Mars","Bring your own spacesuit!",
-                new User(), 2);
+                new User(), Sports.BASKETBALL.getSport());
 
         //testing method:
         Match savedMatch = matchService.saveMatch(match1);
@@ -56,7 +55,7 @@ class MatchServiceIT {
     void deleteMatchById() {
         //Creating data:
         Match match1 = createMatch("Space Basketball", "2021-11-21","16:00","Mars","Bring your own spacesuit!",
-                new User(), 2);
+                new User(), Sports.BASKETBALL.getSport());
         matchRepository.save(match1);
         long matchRepositorySizeBefore = matchRepository.count();
 
@@ -73,7 +72,7 @@ class MatchServiceIT {
         assertFalse(matches.contains(match1));
     }
     //helper class:
-    private Match createMatch (String name, String date, String hour, String location, String details, User user, int sport) {
+    private Match createMatch (String name, String date, String hour, String location, String details, User user, String sport) {
         Match match = new Match();
         match.setName(name);
         match.setDate(date);
@@ -84,7 +83,7 @@ class MatchServiceIT {
         match.setNumberOfParticipants(1);
         match.getUsersAttending().add(user);
         match.setOwnerName(user.getName());
-        match.setSportName(sportsService.sportSelected(sport));
+        match.setSportName(sport);
         user.getParticipatingMatches().add(match);
         return match;
     }

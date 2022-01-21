@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static com.joaorenault.sportbuddy.helper.Sports.*;
 
@@ -20,7 +22,6 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
     private final MatchRepository matchRepository;
     private final UserRepository userRepository;
     private final LoginRepository loginRepository;
-    private final SportsChoice sportsService = new SportsChoice();
     private final PasswordEncoder passwordEncoder;
 
     public SportsBootstrap(MatchRepository matchRepository, UserRepository userRepository, LoginRepository loginRepository, PasswordEncoder passwordEncoder) {
@@ -40,6 +41,8 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
         loginRepository.save(johnLogin);
         User john = new User(johnLogin,"John Master","john@email.com");
         johnLogin.setUser(john);
+        john.setFavouriteSports(new ArrayList<>(
+                Arrays.asList(BASKETBALL.getSport(), SOCCER.getSport())));
         loginRepository.save(johnLogin);
         userRepository.save(john);
 
@@ -47,6 +50,8 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
         loginRepository.save(larryLogin);
         User larry = new User(larryLogin,"Larry Sting","larry1@email.com");
         larryLogin.setUser(larry);
+        larry.setFavouriteSports(new ArrayList<>(
+                Arrays.asList(SOCCER.getSport())));
         loginRepository.save(larryLogin);
         userRepository.save(larry);
 
@@ -54,6 +59,8 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
         loginRepository.save(larissaLogin);
         User larissa = new User(larissaLogin,"Larissa Hearth","larrissa@email.com");
         larissaLogin.setUser(larissa);
+        larissa.setFavouriteSports(new ArrayList<>(
+                Arrays.asList(TENNIS.getSport(), TABLE_TENNIS.getSport())));
         loginRepository.save(larissaLogin);
         userRepository.save(larissa);
 
@@ -61,6 +68,8 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
         loginRepository.save(brunaLogin);
         User bruna = new User(brunaLogin,"Bruna Lulu","bruna@email.com");
         brunaLogin.setUser(bruna);
+        bruna.setFavouriteSports(new ArrayList<>(
+                Arrays.asList(VOLLEYBALL.getSport(),SOCCER.getSport())));
         loginRepository.save(brunaLogin);
         userRepository.save(bruna);
 
@@ -74,8 +83,8 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
         Match match4 = createMatch("Beach Volleyball!", "2021-11-25", "11:00","Long Beach", "We're starting when 4 is already there",
                 bruna, VOLLEYBALL.getSport());
         // Making people participate:
-        participateMatch(john.getId(), match1.getId());
-        participateMatch(larry.getId(), match2.getId());
+        participateMatch(john.getId(), match2.getId());
+        participateMatch(larry.getId(), match1.getId());
         participateMatch(bruna.getId(), match2.getId());
 
     }
@@ -92,7 +101,6 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
         match.getUsersAttending().add(user);
         match.setOwnerName(user.getName());
         match.setSportName(sport);
-//        match.setSportName(sportsService.sportSelected(sport));
         matchRepository.save(match);
         user.getParticipatingMatches().add(match);
         userRepository.save(user);
