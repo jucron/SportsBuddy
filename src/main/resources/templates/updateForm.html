@@ -13,6 +13,13 @@
             width: 4rem;
             height: 4rem;
         }
+        #log {
+            position: relative;
+            right: 50px;
+        }
+        #user {
+            font-style: italic;
+        }
     </style>
 
 </head>
@@ -25,6 +32,12 @@
         <img src="../static/images/navbar.PNG" class="d-inline-block align-top" alt="" th:src="@{/images/navbar.PNG}">
         Sports Buddy
     </a>
+    <div id="log">
+        <p>Logged in as: <a id="user" th:text="${user.getName()}">Name</a></p>
+        <li class="nav">
+            <a class="nav-link" href="/logout" >Log out</a>
+        </li>
+    </div>
 </nav>
 <div class="container my-4">
     <div class="col-md-8">

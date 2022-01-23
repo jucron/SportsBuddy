@@ -41,38 +41,37 @@
         <li class="nav">
             <a class="nav-link" href="/logout" >Log out</a>
         </li>
-
     </div>
 
 </nav>
 <div class="container my-2">
-    <div class="card">
-        <div class="card-body">
-                <div class="col-md-12">
-                    <h1>User Details</h1>
-                    <div class="row"></div>
-                    <div class="col-md-3">
-                    </div>
-                    <div class="col-md-6" th:object="${userInspected}">
-                        <p style="font-weight: bold">Name: </p>
-                        <p th:text="${userInspected.name}">Name</p>
-                        <p style="font-weight: bold">Email: </p>
-                        <p th:text="${userInspected.email}">Email</p>
-                        <p style="font-weight: bold">Favourite Sports: </p>
-                            <ul th:each="sport : ${userInspected.favouriteSports}">
-                                <li th:text="${sport}"></li>
-                            </ul>
-                        <p style="font-weight: bold">Participating Matches: </p>
-                        <ul th:each="match : ${userInspected.participatingMatches}">
-                            <li th:text="${match.name}"></li>
-                        </ul>
-                    </div>
+    <div class="row">
+        <div class="col-md-3">
+        </div>
+        <div class="col-md-6" th:object="${userInspected}">
+            <div class="card">
+                <div class="card-body">
+                    <h2 style="text-align: center">User Details</h2>
+                    <p></p>
+                    <p style="font-weight: bold">Name: </p>
+                    <p th:text="${userInspected.name}">Name</p>
+                    <p style="font-weight: bold">Email: </p>
+                    <p th:text="${userInspected.email}">Email</p>
+                    <p style="font-weight: bold">Favourite Sports: </p>
+                    <ul th:each="sport : ${userInspected.favouriteSports}">
+                        <li th:text="${sport}"></li>
+                    </ul>
+                    <p style="font-weight: bold">Participating Matches: </p>
+                    <ul th:each="match : ${userInspected.participatingMatches}">
+                        <li><a th:href="@{/inspect/{id}/match/(id=${match.getId()})}" th:text="${match.name}"
+                        ></a></li>
+                    </ul>
                     <div class="col-md-3" >
                         <a type="button" href="/" class="btn btn-secondary" value="Back to matches list">Go back</a>
-
                     </div>
                 </div>
-                </div>
+            </div>
+        </div>
     </div>
     </div>
 </div>

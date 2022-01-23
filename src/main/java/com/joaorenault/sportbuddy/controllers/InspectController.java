@@ -47,8 +47,8 @@ public class InspectController {
         Match matchInspected = matchService.findMatchById(id);
 
         model.addAttribute("mainUser", mainUser);
-        model.addAttribute("userInspected", matchInspected);
+        model.addAttribute("match", matchInspected);
 
-        return "inspect/user_details";
+        return "inspect/match_details";
     }
 }
