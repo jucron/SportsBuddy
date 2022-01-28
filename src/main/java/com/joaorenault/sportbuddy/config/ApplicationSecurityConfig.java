@@ -77,6 +77,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/passrecovery",
                 "/pass-recovery",
                 "/send_email"
+                ,"/h2-console/**"
                 );
     }
     @Override

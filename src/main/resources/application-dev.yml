@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/sportbuddyd&useSSL=false
+    url: jdbc:postgresql://localhost:5432/sportbuddydb #&useSSL=false
     username: sportbuddy_dev
     password: sportbuddy
     platform: postgres
@@ -12,13 +12,16 @@ spring:
     hibernate:
       ddl-auto: validate
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    database: postgres
+    database: postgresql
     show-sql: true
-#    properties:
+    properties:
+      hibernate:
+        default_schema: sb_dev
+#    USE THIS NEXT STEP FOR DATABASE CREATION
 #      javax:
 #        persistence:
 #          schema-generation:
 #            create-source: metadata
 #            scripts:
 #              action: create
-#              create-target: guru_database_create.sql
+#              create-target: sports_database_create.sql

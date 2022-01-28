@@ -1,10 +1,10 @@
 spring:
   datasource:
     # Set here configurations for the database connection
-    url: jdbc:postgresql://localhost:5432/sportbuddyd&useSSL=false
+    url: jdbc:postgresql://localhost:5432/sportbuddydb
     username: sportbuddy_prod
     password: sportbuddy #in an enterprise environment, the password should not be passed here
-    platform: postgres
+    platform: sb_prod #postgres
     driver-class-name: org.postgresql.Driver
     # Keep the connection alive if idle for a long time (needed in production)
     testWhileIdle: true
@@ -17,6 +17,9 @@ spring:
     hibernate:
       ddl-auto: validate
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-    database: postgres
+    database: postgresql
     show-sql: false #no need to clog with logs in production environment
+    properties:
+      hibernate:
+        default_schema: sb_prod
 
