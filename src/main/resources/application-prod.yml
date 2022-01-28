@@ -4,7 +4,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/sportbuddydb
     username: sportbuddy_prod
     password: sportbuddy #in an enterprise environment, the password should not be passed here
-    platform: sb_prod #postgres
+    platform: postgres
     driver-class-name: org.postgresql.Driver
     # Keep the connection alive if idle for a long time (needed in production)
     testWhileIdle: true
