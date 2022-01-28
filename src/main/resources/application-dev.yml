@@ -17,11 +17,3 @@ spring:
     properties:
       hibernate:
         default_schema: sb_dev
-#    USE THIS NEXT STEP FOR DATABASE CREATION
-#      javax:
-#        persistence:
-#          schema-generation:
-#            create-source: metadata
-#            scripts:
-#              action: create
-#              create-target: sports_database_create.sql
