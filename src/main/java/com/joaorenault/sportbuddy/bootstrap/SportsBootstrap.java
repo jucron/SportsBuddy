@@ -6,6 +6,7 @@ import com.joaorenault.sportbuddy.domain.User;
 import com.joaorenault.sportbuddy.repositories.LoginRepository;
 import com.joaorenault.sportbuddy.repositories.MatchRepository;
 import com.joaorenault.sportbuddy.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import static com.joaorenault.sportbuddy.helper.Sports.*;
 
 @Component
+@Slf4j
 public class SportsBootstrap implements ApplicationListener<ContextRefreshedEvent> {
     private final MatchRepository matchRepository;
     private final UserRepository userRepository;
@@ -35,6 +37,17 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
 
+        //Checking if Bootstrap is already loaded:
+        if (loginRepository.findByUsername("john")==null) {
+            loadBootstrapData();
+            log.info("Initial data not found, loading Boostrap..");
+        } else {
+            log.info("Data already in Database, no need to load Bootstrap.");
+        }
+
+    }
+
+    private void loadBootstrapData() {
         String examplePass = passwordEncoder.encode("examplePass");
         // Adding users:
         LoginAccess johnLogin = new LoginAccess("john",examplePass);
@@ -86,7 +99,6 @@ public class SportsBootstrap implements ApplicationListener<ContextRefreshedEven
         participateMatch(john.getId(), match2.getId());
         participateMatch(larry.getId(), match1.getId());
         participateMatch(bruna.getId(), match2.getId());
-
     }
 
     private Match createMatch (String name, String date, String hour,String location, String details,User user, String sport) {

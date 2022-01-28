@@ -2,13 +2,12 @@
 --# docker-compose -f stack.yml up
 
 --#Create database and service accounts (login with super account in order to do this!)
-
 CREATE database sportbuddydb;
 
 CREATE USER sportbuddy_prod WITH PASSWORD 'sportbuddy';
 CREATE USER sportbuddy_dev WITH PASSWORD 'sportbuddy';
 
---#Creating schemas with owners
+--#Creating schemas with owners (select database)
 
 CREATE SCHEMA sb_prod AUTHORIZATION sportbuddy_prod;
 CREATE SCHEMA sb_dev AUTHORIZATION sportbuddy_dev;
