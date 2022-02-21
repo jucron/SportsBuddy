@@ -34,7 +34,7 @@ Theme Motivation of this app: Difficulty of meeting people, for the practice of 
 3. With a browser, access the app via http://localhost:8080/ 
 4. (Optional) run `docker logs -t <container>` to see the logs 
 #### Notes:
-Database is in-memory for demonstration purposes. It will be updated in the future.
+Database for testing is in-memory type, for fast and convenient usage. It will be updated in the future.
 You won't be able to send the message via e-mail, unless account details are changed in application.properties file
 ## Technology 
   - Java
