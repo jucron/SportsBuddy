@@ -25,21 +25,31 @@ public class MatchesController {
     private final SessionService sessionService;
     private final MatchService matchService;
     private final UserService userService;
+    private String matchListFeedback;
 
     public MatchesController(MatchService matchService, UserService userService,
                              SessionService sessionService) {
         this.matchService = matchService;
         this.userService = userService;
         this.sessionService = sessionService;
+        this.matchListFeedback = null;
     }
 
     @GetMapping({"matches","match_delete/matches","match_leave/matches","match_participate/matches"})
     public String matches (Model model) {
-        //Go back to index in case of not logged in
         log.info("matches mapping accessed");
         User mainUser = userService.findUserByLogin(sessionService.getLoginOfCurrentSession());
         model.addAttribute("mainUser", mainUser);
         model.addAttribute("matches",matchService.getMatches());
+        if (matchListFeedback==null) {
+            model.addAttribute("matchInteract", new FeedbackMessage(false));
+
+        } else {
+            model.addAttribute("matchInteract", new FeedbackMessage(true,
+                    1,matchListFeedback));
+        }
+        //resetting matchFeedback
+        matchListFeedback=null;
 
         return "matches/matchesList";
     }
@@ -77,6 +87,10 @@ public class MatchesController {
 
         user.getParticipatingMatches().add(match);
         userService.saveUser(user);
+
+        //setting matchFeedback:
+        matchListFeedback="The match '"+match.getName()+"' was created successfully! Invite all your friends!";
+
         return "redirect:matches";
     }
     @GetMapping("match_bad_create")
@@ -100,6 +114,10 @@ public class MatchesController {
         mainUser.getParticipatingMatches().add(match);
         matchService.saveMatch(match);
         userService.saveUser(mainUser);
+
+        //Setting match feedback and redirecting to list:
+        matchListFeedback="Great! You are now participating in the '"+match.getName()+"' match!";
+
         return "redirect:matches";
     }
     @GetMapping("match_leave/{id}")
@@ -112,6 +130,10 @@ public class MatchesController {
         mainUser.getParticipatingMatches().remove(match);
         matchService.saveMatch(match);
         userService.saveUser(mainUser);
+
+        //Setting match feedback and redirecting to list:
+        matchListFeedback="Oh no! You just left the '"+match.getName()+"' match!";
+
         return "redirect:matches";
     }
     @GetMapping ("match_delete/{id}")
@@ -122,6 +144,10 @@ public class MatchesController {
         userService.removeAllParticipantsOfAMatch(match);
         matchService.deleteMatchById(match.getId());
         userService.saveUser(mainUser);
+
+        //Setting match feedback and redirecting to list:
+        matchListFeedback="The match '"+match.getName()+"', which you were the owner, was deleted!";
+
         return "redirect:matches";
     }
 }
