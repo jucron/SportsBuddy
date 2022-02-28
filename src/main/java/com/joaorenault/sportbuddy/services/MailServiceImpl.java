@@ -1,5 +1,6 @@
 package com.joaorenault.sportbuddy.services;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -10,6 +11,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Random;
 
 @Service
+@AllArgsConstructor
 public class MailServiceImpl implements MailService {
 
     @Autowired
