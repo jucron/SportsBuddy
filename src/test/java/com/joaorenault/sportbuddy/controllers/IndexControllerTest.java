@@ -87,19 +87,6 @@ class IndexControllerTest {
     }
 
     @Test
-    void logout() throws Exception {
-        //given
-
-        //when
-        mockMvc.perform(get("/logout"));
-
-        //then
-//        todo: must test with security layer
-//        Assertions.assertEquals("redirect:index", viewName);
-//        verify(sessionService, times(1)).setSessionUserID(null);
-    }
-
-    @Test
     void startupPageBadLogin() {
         //given
         ArgumentCaptor<LoginAccess> argumentCaptorLoginAccess = ArgumentCaptor.forClass(LoginAccess.class);
@@ -219,53 +206,5 @@ class IndexControllerTest {
                 .andExpect(view().name("registerForm"));
     }
 
-
-    @Test
-    void loginWithErrors() throws Exception {
-        //testing
-//        mockMvc.perform(MockMvcRequestBuilders.post("/login")
-//                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                        .param("username", "")
-//                        .param("password","")
-//                )
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(view().name("redirect:index_badlogin"));
-//        todo: must test this with security
-    }
-    @Test
-    void loginDoesNotExists() throws Exception {
-
-//        //Assuming Login ID doest not exists
-//        when(loginAccessService.processLogin(any())).thenReturn(null);
-//        //testing
-//        mockMvc.perform(MockMvcRequestBuilders.post("/login")
-//                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                        .param("username", "john")
-//                        .param("password","password")
-//                )
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(view().name("redirect:index_badlogin"));
-//        todo: must test this with security
-    }
-    @Test
-    void loginIsOK() throws Exception {
-//        //Creating mock data for processing
-//        User user = new User();
-//        user.setName("John");
-//
-//        //Assuming Login exists in repertory
-//        when(loginAccessService.processLogin(any())).thenReturn(1L);
-//        //overriding fetching of User in repertory
-//        when(userService.findUserById(1L)).thenReturn(user);
-//        //testing:
-//        mockMvc.perform(MockMvcRequestBuilders.post("/login")
-//                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-//                        .param("username", "john")
-//                        .param("password","password")
-//                )
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(view().name("redirect:matches/matches"));
-//        todo: must test this with security
-    }
 }
 
