@@ -28,6 +28,10 @@ Theme Motivation of this app: Difficulty of meeting people, for the practice of 
 * Match leaving in which you are participating
 * Match delete if you are the owner
 ## Getting Started
+### Data Initialization
+* Use the file [configure-postgres.sql](https://github.com/jucron/SportsBuddy/blob/master/src/main/resources/scripts/configure-postgres.sql) in order to give your PostGresSQL database the necessary configuration. This way we can properly use the different profiles: `dev` and `prod`.
+* Use the file [start_data-postgres.sql](https://github.com/jucron/SportsBuddy/blob/master/src/main/resources/scripts/start_data-postgres.sql) to initialize tables and constraints in your PostGresSQL database. So just run the application for the first time, it will automatically input data if not existent.
+
 ### Via Docker
 1. After changes run `docker build -t sportsbuddy .` in a project root directory to build application image.
 2. After image is fully built, run `docker run -d -p 8080:8080 sportsbuddy` to start the image
