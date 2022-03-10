@@ -18,6 +18,8 @@ Theme Motivation of this app: Difficulty of meeting people, for the practice of 
 * Account creation with unique username and e-mail
 * Password safely encoded and stored in database
 * Credentials check and login with session 
+![Login](https://user-images.githubusercontent.com/79875515/157715054-17025d15-8c9d-428f-ba48-71fbbb2aeb0a.gif)
+
 ### Password recovery
 * Send a message to the registered e-mail containing a new password
 ### Account update
