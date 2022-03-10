@@ -18,7 +18,7 @@ Theme Motivation of this app: Difficulty of meeting people, for the practice of 
 * Account creation with unique username and e-mail
 * Password safely encoded and stored in database
 * Credentials check and login with session 
-![Login](https://user-images.githubusercontent.com/79875515/157715054-17025d15-8c9d-428f-ba48-71fbbb2aeb0a.gif)
+<img src="https://user-images.githubusercontent.com/79875515/157717950-8c5fc224-2504-4ac9-96b3-63336839a600.gif" width=75% height=75%>
 
 ### Password recovery
 * Send a message to the registered e-mail containing a new password
@@ -29,6 +29,8 @@ Theme Motivation of this app: Difficulty of meeting people, for the practice of 
 * Match participation in which you are not participating
 * Match leaving in which you are participating
 * Match delete if you are the owner
+<img src="https://user-images.githubusercontent.com/79875515/157723193-fffd03c9-a913-41b2-8cf4-cfd604f80fc3.gif" width=75% height=75%>
+
 ## Getting Started
 ### Data Initialization
 * Use the file [configure-postgres.sql](https://github.com/jucron/SportsBuddy/blob/master/src/main/resources/scripts/configure-postgres.sql) in order to give your PostGresSQL database the necessary configuration. This way we can properly use the different profiles: `dev` and `prod`.
