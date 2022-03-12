@@ -31,6 +31,10 @@ Theme Motivation of this app: Difficulty of meeting people, for the practice of 
 * Match delete if you are the owner
 <img src="https://user-images.githubusercontent.com/79875515/157723193-fffd03c9-a913-41b2-8cf4-cfd604f80fc3.gif" width=75% height=75%>
 
+### Database Diagram
+For the database modeling, a diagram with each table and relationships was created for the SportsBuddy application:
+<img src="https://user-images.githubusercontent.com/79875515/158018955-9ad71cf2-4872-415f-aea6-062185d617cd.png" width=75% height=75%>
+
 ## Getting Started
 ### Data Initialization
 * Use the file [configure-postgres.sql](https://github.com/jucron/SportsBuddy/blob/master/src/main/resources/scripts/configure-postgres.sql) in order to give your PostGresSQL database the necessary configuration. This way we can properly use the different profiles: `dev` and `prod`.
