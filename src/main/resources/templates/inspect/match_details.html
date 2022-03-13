@@ -46,7 +46,6 @@
             <a class="nav-link" href="/logout">Log out</a>
         </li>
     </div>
-
 </nav>
 <div class="container my-4">
     <div class="row">
@@ -85,16 +84,22 @@
                     <p></p>
                     <td style="width: 5.00%"> <!-- Participate: NOT for users that have that match -->
                         <span th:if="${mainUser.getParticipatingMatches().contains(match)}"><button class="btn btn-info" disabled>Participate</button></span>
-                        <span th:unless="${mainUser.getParticipatingMatches().contains(match)}"><a th:href="@{/matches/match_participate/{id}(id=${match.getId()})}" class="btn btn-info">Participate</a></span>
+                        <span th:unless="${mainUser.getParticipatingMatches().contains(match)}"
+                              onclick="return confirm('Are you sure you want to join this match?')">
+                            <a th:href="@{/matches/match_participate/{id}(id=${match.getId()})}" class="btn btn-info">Participate</a>
+                        </span>
                     </td>
                     <td style="width: 5.00%"> <!-- Leave match: ONLY for users that have that match AND are not owners-->
-                        <span th:if="${(mainUser.getParticipatingMatches().contains(match)) && ((match.ownerID) != (mainUser.id))}">
+                        <span th:if="${(mainUser.getParticipatingMatches().contains(match)) && ((match.ownerID) != (mainUser.id))}"
+                              onclick="return confirm('Are you sure you want to leave this match?')">
                                         <a th:href="@{/matches/match_leave/{id}(id=${match.getId()})}" class="btn btn-warning">Leave</a></span>
                         <span th:unless="${(mainUser.getParticipatingMatches().contains(match)) && ((match.ownerID) != (mainUser.id))}">
                                         <button class="btn btn-warning" disabled>Leave</button></span>
                     </td>
                     <td style="width: 5.00%"> <!-- Delete match: ONLY for users that OWN that match-->
-                        <span th:if="${match.ownerID} == ${mainUser.id}" ><a th:method="post" th:href="@{/matches/match_delete/{id}(id=${match.getId()})}" class="btn btn-danger">Delete</a></span>
+                        <span th:if="${match.ownerID} == ${mainUser.id}"
+                              onclick="return confirm('WAIT! Are you sure you want to delete this match?\nThis match will no longer exists if you proceed.')">
+                            <a th:method="post" th:href="@{/matches/match_delete/{id}(id=${match.getId()})}" class="btn btn-danger">Delete</a></span>
                         <span th:unless="${match.ownerID} == ${mainUser.id}"><button class="btn btn-danger" disabled>Delete</button></span>
                     </td>
                     <p></p>

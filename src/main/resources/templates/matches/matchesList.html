@@ -27,6 +27,7 @@
 <!-- Option 1: Bootstrap Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
 <!-- Image and text -->
+
 <nav class="navbar navbar-light bg-light">
     <a class="navbar-brand" href="#">
         <img src="/navbar.PNG" class="d-inline-block align-top" alt="" th:src="@{/images/navbar.PNG}">
@@ -39,11 +40,10 @@
             <a class="nav-link" href="/updateAccount" >Change account details</a>
         </li>
         <li class="nav">
-            <a class="nav-link" href="/logout" >Log out</a>
+            <a class="nav-link" href="/logout"
+               onclick="return confirm('Are you sure you want to logout?')">Log out</a>
         </li>
-
     </div>
-
 </nav>
 <div class="container my-2">
     <div class="card">
