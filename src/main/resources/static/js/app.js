@@ -4,7 +4,7 @@ const navbarTemplate = document.createElement('div');
 navbarTemplate.innerHTML = `
   <nav class="navbar navbar-light bg-light">
     <a class="navbar-brand" href="#">
-      <img src="/images/navbar.PNG" class="d-inline-block align-top" alt="">
+      <img id="img1" src="/images/navbar.PNG" class="d-inline-block align-top" alt="">
       Sports Buddy
     </a>
     <div id="log">

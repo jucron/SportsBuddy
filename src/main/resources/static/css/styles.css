@@ -1,13 +1,20 @@
 
-        img {
-            position: relative;
-            width: 4rem;
-            height: 4rem;
-        }
-        #log {
-            position: relative;
-            right: 50px;
-        }
-        #mainUserName {
-            font-style: italic;
-        }
+#img1 {
+     position: relative;
+     width: 4rem;
+     height: 4rem;
+     }
+#img2 {
+     position: relative;
+     left: 80px;
+     width: 15rem;
+     top: 50px;
+     /*height: 4rem;*/
+     }
+#log {
+      position: relative;
+      right: 50px;
+      }
+#mainUserName {
+      font-style: italic;
+      }
