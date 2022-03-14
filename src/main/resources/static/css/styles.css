@@ -1,0 +1,13 @@
+
+        img {
+            position: relative;
+            width: 4rem;
+            height: 4rem;
+        }
+        #log {
+            position: relative;
+            right: 50px;
+        }
+        #mainUserName {
+            font-style: italic;
+        }

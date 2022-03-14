@@ -1,0 +1,19 @@
+
+<!--//Use this as a template for the navbar-->
+<nav class="navbar navbar-light bg-light">
+    <a class="navbar-brand" href="#">
+      <img src="/navbar.PNG" class="d-inline-block align-top" alt="" th:src="@{/images/navbar.PNG}">
+      Sports Buddy
+    </a>
+    <div id="log">
+      <p>Logged in as: <a id="username" th:text="${mainUser.getName()}">Name</a></p>
+
+      <li class="nav">
+        <a class="nav-link" href="/updateAccount" >Change account details</a>
+      </li>
+      <li class="nav">
+        <a class="nav-link" href="/logout"
+           onclick="return confirm('Are you sure you want to logout?')">Log out</a>
+      </li>
+    </div>
+  </nav>
