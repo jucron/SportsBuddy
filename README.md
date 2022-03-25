@@ -48,6 +48,12 @@ For the database modeling, a diagram with each table and relationships was creat
 #### Notes:
 Database for testing is in-memory type, for fast and convenient usage. It will be updated in the future.
 You won't be able to send the message via e-mail, unless account details are changed in application.properties file
+## Conceptual Design
+> Object Oriented Programming
+
+> Dependency Injection (Design pattern)
+
+> MVC Structure (Model, View, Controller)
 ## Technology 
   - Java
   - Spring-Boot
@@ -55,8 +61,9 @@ You won't be able to send the message via e-mail, unless account details are cha
   - Hibernate (object relational mapping)
   - Thymeleaf (Frontend java engine)
   - Maven (build, dependencies)
-  - Testing
+  - Testing (JUnit, Mockito)
   - Spring Security (Form based login)
+  - JavaScript (DOM manipulation)
   - HTML
   - Bootstrap
   - Code coverage
