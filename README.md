@@ -11,8 +11,6 @@ This app was initially created as the Final Project of *[CS50's Introduction to 
 Website's functionality: Create sports events and centralize information of matches. 
 Theme Motivation of this app: Difficulty of meeting people, for the practice of sport, for any kinds of reasons. If you recently moved to a new country/region or have lost contact with your friends, you can use the website as a tool for socializing and play sports.
 
-#### Video Demo (for CS50's):  [Youtube video link](https://youtu.be/hkMPWurAIa8)
-
 ## Features
 ### Login
 * Account creation with unique username and e-mail
